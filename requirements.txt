@@ -1,3 +1,6 @@
+#packages needed to install
 pandas
 jupyter==1.*
-kagglehub 
+KaggleApi
+Rainbow CSV
+git-lfs
