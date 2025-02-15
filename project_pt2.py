@@ -13,7 +13,7 @@ spotify_data = spotify_data.explode("artists")
 artist_popularity = spotify_data.groupby("artists")["popularity"].mean()
 
 # create widget to choose how many artists you can see
-display_widget = st.slider("Choose Number of Artists to Display", min_value=1, max_value=40, value=20, step=1)
+display_widget = st.slider("Number of Artists to Display", min_value=1, max_value=40, value=20, step=1)
 
 # apply widget to artist_popularity subset
 artist_popularity = artist_popularity.head(display_widget)
