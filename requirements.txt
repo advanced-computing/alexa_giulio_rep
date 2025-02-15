@@ -2,6 +2,6 @@
 pandas
 jupyter==1.*
 KaggleApi
-Rainbow CSV
+rainbow_csv
 git-lfs
 streamlit
