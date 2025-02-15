@@ -1,7 +1,8 @@
 #packages needed to install
 pandas
 jupyter==1.*
-KaggleApi
+kaggle
 rainbow_csv
 git-lfs
 streamlit
+
