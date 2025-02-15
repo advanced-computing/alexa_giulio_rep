@@ -3,7 +3,7 @@ import streamlit as st
 import pandas as pd
 
 # loading data as a csv instead of api for simplicity 
-spotify_data = pd.read_csv("/Users/alexachan/Downloads/spotify_data_top_us.csv")
+spotify_data = pd.read_csv("spotify_data_top_us.csv")
 
 # separate artists into individual categories in case they're grouped together (re. collabs)
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
@@ -13,7 +13,7 @@ spotify_data = spotify_data.explode("artists")
 artist_popularity = spotify_data.groupby("artists")["popularity"].mean()
 
 # create widget to choose how many artists you can see
-display_widget = st.slider("Choose Number of Artists to Display", min_value=1, max_value=50, value=25, step=1)
+display_widget = st.slider("Choose Number of Artists to Display", min_value=1, max_value=40, value=20, step=1)
 
 # apply widget to artist_popularity subset
 artist_popularity = artist_popularity.head(display_widget)
