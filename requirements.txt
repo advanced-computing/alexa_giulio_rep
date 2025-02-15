@@ -2,7 +2,6 @@
 pandas
 jupyter==1.*
 kaggle
-rainbow-csv
 git-lfs
 streamlit
 
