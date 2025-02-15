@@ -4,3 +4,4 @@ jupyter==1.*
 KaggleApi
 Rainbow CSV
 git-lfs
+streamlit
