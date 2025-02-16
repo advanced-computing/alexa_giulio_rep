@@ -1,3 +1,14 @@
+<<<<<<< HEAD
 pandas
 jupyter==1.*
 plotly
+=======
+#packages needed to install
+pandas
+jupyter==1.*
+kaggle
+git-lfs
+streamlit
+
+
+>>>>>>> 8d609a8577d2e1a365657c82dd3315c0ac7068d7
