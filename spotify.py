@@ -19,9 +19,9 @@ display_widget = st.slider("Number of Artists to Display", min_value=1, max_valu
 artist_popularity = artist_popularity.head(display_widget)
 
 # make bar chart
-st.title("Top 40 Spotify Artists")
+st.title("Top 40 Spotify Artists by Alexa and Giulio")
 st.bar_chart(artist_popularity)
 
-# $streamlit run project_pt2.py  
+# $streamlit run spotify.py  
 
 # disclaimer: used ChatGPT to figure out the .explode() function in order to recategorize the artists properly
