@@ -4,5 +4,5 @@ jupyter==1.*
 kaggle
 git-lfs
 streamlit
-matplotlib.pyplot
+matplotlib
 
