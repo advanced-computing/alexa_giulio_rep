@@ -13,3 +13,5 @@ def name_cleaning(df: pd.DataFrame, column_name: str):
 def name_separating(df: pd.DataFrame, column_name: str):
     df = df.explode(column_name)[column_name].tolist()
     return df
+
+
