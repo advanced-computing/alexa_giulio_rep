@@ -33,6 +33,6 @@ top_artists = top_artists.head(display_widget)
 st.title("Top 40 Spotify Artists")
 st.bar_chart(artist_popularity)
 
-# $streamlit run project_pt2.py  
+# $streamlit run project_pt2_v2.py  
 
 # disclaimer: used ChatGPT to figure out the .explode() function and to troubleshoot API loading issues in order to recategorize the artists properly
