@@ -7,4 +7,3 @@ streamlit
 matplotlib
 pytest 
 pytest-cov
-
