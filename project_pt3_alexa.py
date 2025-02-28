@@ -1,6 +1,5 @@
 #creating a general function to clean the artist name column
 import pandas as pd
-import spotify
 
 #separates out multiple artists that are credited on a single song
 def name_cleaning(df: pd.DataFrame, column_name: str):
