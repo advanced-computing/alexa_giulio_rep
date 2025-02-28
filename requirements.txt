@@ -6,4 +6,4 @@ git-lfs
 streamlit
 matplotlib
 pytest
-pytest-cov 6.0.0
+pytest-cov==6.0.0
