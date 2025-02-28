@@ -6,4 +6,5 @@ git-lfs
 streamlit
 matplotlib
 pytest 
+ruff
 
