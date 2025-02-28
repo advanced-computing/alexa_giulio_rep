@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         run: pip install pytest
-        run: pip install pytest-cov==6.0.0
+        run: pip install pytest-cov 6.0.0
       - name: Run tests
         # https://pytest-cov.readthedocs.io/en/latest/readme.html
         run: pytest --cov
