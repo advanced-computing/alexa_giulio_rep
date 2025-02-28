@@ -1,7 +1,7 @@
 # $pip install pytest
 
 import pandas as pd
-from project_pt3 import name_cleaning
+from project_pt3_alexa import name_cleaning
 
 #test 1
 def test_1():
