@@ -5,4 +5,4 @@ kaggle
 git-lfs
 streamlit
 matplotlib
-
+pytest
