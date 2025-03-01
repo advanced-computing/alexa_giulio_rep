@@ -49,4 +49,4 @@ def test_3():
                              "bbno$"
                              ]
 
-#python -m pytest spotify_test_pt3.py
+#python -m pytest project_pt3/spotify_test_pt3.py

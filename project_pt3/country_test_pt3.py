@@ -57,4 +57,4 @@ def test_load_and_prepare_data_correct_countries():
     # Check if the countries are as expected
     assert countries == expected_countries
 
-#python -m pytest country_test_pt3.py
+#python -m pytest project_pt3/country_test_pt3.py
