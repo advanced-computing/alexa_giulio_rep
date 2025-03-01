@@ -19,4 +19,4 @@ def create_population_chart(df):
     ax.set_title("Population by Country in 2023", fontsize=14)
     ax.set_xticklabels(df["Country Name"], rotation=90)
 
-    return fig
+    return fig 
