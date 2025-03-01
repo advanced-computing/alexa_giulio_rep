@@ -1,7 +1,7 @@
 # $pip install pytest
 
 import pandas as pd
-from project_pt3_alexa import name_cleaning 
+from spotify_functions_pt3 import name_cleaning 
 
 #test 1
 def test_1():
@@ -49,4 +49,4 @@ def test_3():
                              "bbno$"
                              ]
 
-#python -m pytest test_alexa.py
+#python -m pytest spotify_test_pt3.py

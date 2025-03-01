@@ -2,7 +2,7 @@
 
 import pandas as pd
 from io import StringIO
-from giulio_functions_test import load_and_prepare_data  # Adjust the import to your project structure
+from country_functions_test_pt3 import load_and_prepare_data  # Adjust the import to your project structure
 
 # Mock CSV Data
 mock_csv_data = """
@@ -57,4 +57,4 @@ def test_load_and_prepare_data_correct_countries():
     # Check if the countries are as expected
     assert countries == expected_countries
 
-#python -m pytest giulio_test.py
+#python -m pytest country_test_pt3.py
