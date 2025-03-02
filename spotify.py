@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# loading data as a csv instead of api for simplicity 
+# loading data as a csv instead of api for simplicity
 spotify_data = pd.read_csv("spotify_data_top_us.csv")
 
 # separate artists into individual categories in case they're grouped together (re. collabs)
@@ -20,7 +20,5 @@ artist_popularity = artist_popularity.head(display_widget)
 # make bar chart
 st.title("Top 40 Spotify Artists by Alexa and Giulio")
 st.bar_chart(artist_popularity)
-
-
 
 # $streamlit run spotify.py 
