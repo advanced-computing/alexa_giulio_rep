@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from kaggle.api.kaggle_api_extended import KaggleApi
 
 #giulio functions
 

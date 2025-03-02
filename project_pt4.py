@@ -1,7 +1,6 @@
 import streamlit as st
-import pandas as pd
-from kaggle.api.kaggle_api_extended import KaggleApi
 import helper_functions
+#from kaggle.api.kaggle_api_extended import KaggleApi
 
 #loading dataset
 dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
@@ -17,16 +16,16 @@ artist_popularity = spotify_data.groupby("artists")["popularity"].mean()
 
 # select subset of artists to display for simplicity
 artist_popularity = artist_popularity.sort_values(ascending=False)
-top_artists = artist_popularity.head(10)
+popular_artists = artist_popularity.head(10)
 
 # create widget to choose how many artists you can see
 display_widget = st.slider("Number of Artists to Display", min_value=1, max_value=10, value=10, step=1)
 
 # apply widget to artist_popularity subset
-top_artists = top_artists.head(display_widget) 
+popular_artists = popular_artists.head(display_widget) 
 
 # make bar chart
-st.title("Top 10 Spotify Artists")
-st.bar_chart(top_artists) 
+st.title("Popular 10 Spotify Artists")
+st.bar_chart(popular_artists) 
 
 #$streamlit run project_pt4.py  
