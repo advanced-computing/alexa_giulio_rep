@@ -5,5 +5,5 @@ kaggle
 git-lfs
 streamlit
 matplotlib
-pytest
+pytest 
 pytest-cov
