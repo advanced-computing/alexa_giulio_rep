@@ -1,40 +1,6 @@
-import pandas as pd
-import matplotlib.pyplot as plt
 from kaggle.api.kaggle_api_extended import KaggleApi
-
-#giulio functions
-
-def load_and_prepare_data(file_path, num_countries):
-    # Load data and select relevant columns
-    df = pd.read_csv(file_path, usecols=["Country Name", "2023"])
-
-    # Sort and select most populated countries
-    df = df.sort_values(by="2023", ascending=False).head(num_countries)
-
-    return df
-
-def create_population_chart(df):
-    # Create bar chart
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.bar(df["Country Name"], df["2023"], color="skyblue")
-    ax.set_xlabel("Country Name", fontsize=12)
-    ax.set_ylabel("Population in 2023", fontsize=12)
-    ax.set_title("Population by Country in 2023", fontsize=14)
-    ax.set_xticklabels(df["Country Name"], rotation=90)
-
-    return fig
-
-#alexa functions
-
-#separates out multiple artists that are credited on a single song
-def name_cleaning(df: pd.DataFrame, column_name: str):
-    df[column_name] = df[column_name].str.split(", ")
-    return name_separating(df, column_name)
-
-#puts the individual artists into their own rows as a list
-def name_separating(df: pd.DataFrame, column_name: str):
-    df = df.explode(column_name)
-    return df
+import pandas as pd
+import streamlit as st
 
 #setting up api
 def authenticate_kaggle_api():
@@ -77,3 +43,33 @@ def call_api(dataset_path, file_name):
     
     df = load_dataset(file_path, skip_rows)
     return df
+
+# dataset path and file name
+dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
+file_name = 'universal_top_spotify_songs.csv'
+
+# calling api
+spotify_data = call_api(dataset_path, file_name)
+#check
+#print(spotify_data.head())
+
+# separate artists into individual categories in case they're grouped together (re. collabs)
+spotify_data["artists"] = spotify_data["artists"].str.split(", ")
+spotify_data = spotify_data.explode("artists")
+
+# group artists by average popularity
+artist_popularity = spotify_data.groupby("artists")["popularity"].mean()
+
+# select subset of artists to display for simplicity
+artist_popularity = artist_popularity.sort_values(ascending=False)
+popular_artists = artist_popularity.head(10)
+
+# create widget to choose how many artists you can see
+display_widget = st.slider("Number of Artists to Display", min_value=1, max_value=10, value=10, step=1)
+
+# apply widget to artist_popularity subset
+popular_artists = popular_artists.head(display_widget)
+
+# make bar chart
+st.title("Popular Spotify Artists")
+st.bar_chart(popular_artists)
