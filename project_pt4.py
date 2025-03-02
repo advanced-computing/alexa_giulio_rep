@@ -25,7 +25,7 @@ display_widget = st.slider("Number of Artists to Display", min_value=1, max_valu
 popular_artists = popular_artists.head(display_widget) 
 
 # make bar chart
-st.title("Popular 10 Spotify Artists")
+st.title("Popular Spotify Artists")
 st.bar_chart(popular_artists) 
 
 #$streamlit run project_pt4.py  
