@@ -27,5 +27,3 @@ ax.set_xticklabels(df["Country Name"], rotation=90)
 
 # streamlit
 st.pyplot(fig)
-
-# 
