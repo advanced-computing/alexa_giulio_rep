@@ -20,3 +20,5 @@ def create_population_chart(df):
     ax.set_xticklabels(df["Country Name"], rotation=90)
 
     return fig
+
+#giulio test
