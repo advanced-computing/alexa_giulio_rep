@@ -1,5 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from kaggle.api.kaggle_api_extended import KaggleApi
+
+#giulio functions
 
 def load_and_prepare_data(file_path, num_countries):
     # Load data and select relevant columns
@@ -21,4 +24,19 @@ def create_population_chart(df):
 
     return fig
 
-#giulio test
+#alexa functions
+
+#separates out multiple artists that are credited on a single song
+def name_cleaning(df: pd.DataFrame, column_name: str):
+    df[column_name] = df[column_name].str.split(", ")
+    return name_separating(df, column_name)
+
+#puts the individual artists into their own rows as a list
+def name_separating(df: pd.DataFrame, column_name: str):
+    df = df.explode(column_name)[column_name].tolist()
+    return df
+
+
+
+    
+

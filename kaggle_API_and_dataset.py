@@ -15,4 +15,3 @@ file_path = './universal_top_spotify_songs.csv'
 df = pd.read_csv(file_path, skiprows=[1306857])
 print(df.head())
 
-#lets hope this works
