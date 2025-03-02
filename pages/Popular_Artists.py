@@ -28,4 +28,4 @@ popular_artists = popular_artists.head(display_widget)
 st.title("Popular Spotify Artists")
 st.bar_chart(popular_artists) 
 
-#$streamlit run project_pt4.py  
+#$streamlit run project_pt4.py   
