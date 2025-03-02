@@ -1,3 +1,5 @@
+import streamlit as st
+
 # Page Title
 st.title("Spotify Streaming Analysis")
 
