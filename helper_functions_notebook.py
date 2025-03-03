@@ -1,16 +1,54 @@
-from kaggle.api.kaggle_api_extended import KaggleApi
+# %%
 import pandas as pd
-import streamlit as st
-import plotly.express as px
-import altair as alt
+import matplotlib.pyplot as plt
+from kaggle.api.kaggle_api_extended import KaggleApi
 from streamlit_extras.let_it_rain import rain
+import streamlit as st
 
+# %%
+#data prep function
+def load_and_prepare_data(file_path, num_countries):
+    # Load data and select relevant columns
+    df = pd.read_csv(file_path, usecols=["Country Name", "2023"])
+
+    # Sort and select most populated countries
+    df = df.sort_values(by="2023", ascending=False).head(num_countries)
+
+    return df
+
+# %%
+#bar chart function
+def create_population_chart(df):
+    # Create bar chart
+    fig, ax = plt.subplots(figsize=(12, 6))
+    ax.bar(df["Country Name"], df["2023"], color="skyblue")
+    ax.set_xlabel("Country Name", fontsize=12)
+    ax.set_ylabel("Population in 2023", fontsize=12)
+    ax.set_title("Population by Country in 2023", fontsize=14)
+    ax.set_xticklabels(df["Country Name"], rotation=90)
+
+    return fig
+
+# %%
+#separates out multiple artists that are credited on a single song
+def name_cleaning(df: pd.DataFrame, column_name: str):
+    df[column_name] = df[column_name].str.split(", ")
+    return name_separating(df, column_name)
+
+# %%
+#puts the individual artists into their own rows as a list
+def name_separating(df: pd.DataFrame, column_name: str):
+    df = df.explode(column_name)
+    return df
+
+# %%
 #setting up api
 def authenticate_kaggle_api():
     api = KaggleApi()
     api.authenticate()
     return api
 
+# %%
 #setting up and downloading path
 def download_dataset(api, dataset_path):
     try:
@@ -18,6 +56,7 @@ def download_dataset(api, dataset_path):
     except Exception as e:
         raise RuntimeError(f"Error downloading dataset: {e}")
 
+# %%
 #making sure dataset can load properly by skipping bad rows
 def get_problematic_rows(file_path):
     problematic_rows = []
@@ -28,6 +67,7 @@ def get_problematic_rows(file_path):
                 problematic_rows.append(i)
     return problematic_rows
 
+# %%
 #loading dataset
 def load_dataset(file_path, skip_rows):
     try:
@@ -36,6 +76,7 @@ def load_dataset(file_path, skip_rows):
     except Exception as e:
         raise RuntimeError(f"Error loading dataset: {e}")
 
+# %%
 #calling on API
 def call_api(dataset_path, file_name):
     api = authenticate_kaggle_api()
@@ -47,24 +88,9 @@ def call_api(dataset_path, file_name):
     df = load_dataset(file_path, skip_rows)
     return df
 
-# dataset path and file name
-dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
-file_name = 'universal_top_spotify_songs.csv'
+# %%
+#dash elements: emoji rain 
 
-spotify_data = call_api(dataset_path, file_name)
-
-# Separate artists into individual categories
-spotify_data["artists"] = spotify_data["artists"].str.split(", ")
-spotify_data = spotify_data.explode("artists")
-
-# Filter for Italy and the US
-df_italy = spotify_data[spotify_data["country"] == "IT"]
-df_us = spotify_data[spotify_data["country"] == "US"]
-
-# Create a radio button widget to simulate pill navigation
-selection = st.selectbox("Country:", ("Italy", "US", "Both"))
-
-#make it rain: 
 def rain_emojis(emoji):
         rain(
             emoji=emoji,
@@ -73,14 +99,3 @@ def rain_emojis(emoji):
             animation_length=5,
         )
 
-#dashboard per country
-if selection == "Italy":
-    #italy charts
-    rain_emojis("🇮🇹")
-
-elif selection == "US":
-#US charts
-    rain_emojis("🇺🇸")
-elif selection == "Both":
-    pass
-    rain_emojis("🎵")

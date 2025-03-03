@@ -12,12 +12,12 @@ st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spo
 st.header("What are your research question(s)?")
 st.write("We are interested in answering the following questions:")
 st.markdown("""
-- Which genres of music and artists are most popular in which countries over time?
+- Which genres of music and artists are most popular Italy and the US? 
 - What is the relationship between song features (speechiness, explicitness, etc) and their popularity?
 - Do countries tend to listen to domestic music (i.e. music produced in the user's country or sung in the home language) more than foreign music?
 - Which songs/artists are most popular and when do they start to lose popularity?
             
-We integrated Roberto's feedback and eliminated "which country listens to the most music". We also slightly modified the wording when it comes to song features.
+We integrated Roberto's feedback and eliminated "which country listens to the most music". We also slightly modified the wording when it comes to song features. Lastly, we decided to focus on just the US (Alexa's home) and Italy (Giulio's home)
 """)
 
 # Notebook Link
