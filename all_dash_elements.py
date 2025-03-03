@@ -1,8 +1,6 @@
 from kaggle.api.kaggle_api_extended import KaggleApi
 import pandas as pd
 import streamlit as st
-import plotly.express as px
-import altair as alt
 from streamlit_extras.let_it_rain import rain
 
 #setting up api

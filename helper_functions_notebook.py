@@ -3,7 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from kaggle.api.kaggle_api_extended import KaggleApi
 from streamlit_extras.let_it_rain import rain
-import streamlit as st
 
 # %%
 #data prep function
