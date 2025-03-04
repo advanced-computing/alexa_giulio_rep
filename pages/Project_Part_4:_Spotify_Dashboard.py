@@ -1,11 +1,24 @@
-import helper_functions_notebook 
+import sys
+import os
+
+# Get the absolute path of the project root (one level up from pages/)
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+utils_path = os.path.join(project_root, "utils")
+
+# Add utils directory to sys.path if not already included
+if utils_path not in sys.path:
+    sys.path.append(utils_path)
+
+# Now, import the module
+from helper_functions_notebook import call_api, rain_emojis
+
 import streamlit as st
 import plotly.express as px
 
 #loading dataset
 dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
 file_name = 'universal_top_spotify_songs.csv'
-spotify_data = helper_functions_notebook.call_api(dataset_path, file_name)
+spotify_data = call_api(dataset_path, file_name)
 
 #name column cleaning
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
@@ -32,6 +45,7 @@ italy_pie = px.pie(explicit_italy,
                 values="count", 
                 hole=0.3, 
                 title="Explicit vs Non Explicit Songs in Italy",
+                subtitle="Do listeners prefer songs with or without profanity?",
                 labels={"is_explicit": "Explicit?"}
                 )
 italy_pie.update_traces(marker=dict(colors=["red", "green"]))
@@ -44,15 +58,22 @@ us_pie = px.pie(explicit_us,
                    values="count", 
                    hole=0.3, 
                    title="Explicit vs Non Explicit Songs in US",
+                   subtitle="Do listeners prefer songs with or without profanity?",
                    labels={"is_explicit": "Explicit?"}
                    )
 
 us_pie.update_traces(marker=dict(colors=["red", "blue"]))
 
 #dashboard
+
+LOGO_URL_SMALL = "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
+st.logo(
+    LOGO_URL_SMALL,
+    link="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png",
+    icon_image=LOGO_URL_SMALL,
+)
 st.title("Spotify Streaming Analysis")
-st.header("Welcome")
-st.subheader("by Alexa and Giulio")
+st.header("by Alexa and Giulio")
 st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spotify Songs in 73 Countries (Daily Updated)\" dataset to analyze music trends in Italy (Giulio's patria) and the US (Alexa's home). Hope you enjoy!")
 st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spotify-songs-in-73-countries-daily-updated?resource=download)")
 
@@ -62,24 +83,24 @@ selection = st.selectbox("Country:", ("Both", "Italy", "US"))
 #individual pages
 if selection == "Both":
     #welcome
-    helper_functions_notebook.rain_emojis("🇮🇹 🇺🇸")
+    rain_emojis("🇮🇹 🇺🇸")
 
     #artist stats
-    st.write("#1 Trending Artist in 🇮🇹")
+    st.write("#1 Trending Artist in 🇮🇹 Today")
     container = st.container(border=True)
     container.write(f"{top_artist_italy}")
 
-    st.write("#1 Trending Artist in 🇺🇸")
+    st.write("#1 Trending Artist in 🇺🇸 Today")
     container = st.container(border=True)
     container.write(f"{top_artist_us}")
 
     #song stats    
-    st.write("#1 Trending Song in 🇮🇹")
+    st.write("#1 Trending Song in 🇮🇹 Today")
     container = st.container(border=True)
     container.write(f"{top_song_italy}")
     
     #us
-    st.write("#1 Trending Song in 🇺🇸")
+    st.write("#1 Trending Song in 🇺🇸 Today")
     container = st.container(border=True)
     container.write(f"{top_song_us}")
 
@@ -90,15 +111,15 @@ if selection == "Both":
 
 elif selection == "Italy":
     #welcome
-    helper_functions_notebook.rain_emojis("🇮🇹")
+    rain_emojis("🇮🇹")
 
     #artist stats
-    st.write("#1 Trending Artist 🎤")
+    st.write("#1 Trending Artist 🎤 Today")
     container = st.container(border=True)
     container.write(f"{top_artist_italy}")
 
     #song stats
-    st.write("#1 Trending Song 🎵")
+    st.write("#1 Trending Song 🎵 Today")
     container = st.container(border=True)
     container.write(f"{top_song_italy}")
 
@@ -107,19 +128,19 @@ elif selection == "Italy":
 
 elif selection == "US":
     #welcome
-    helper_functions_notebook.rain_emojis("🇺🇸")
+    rain_emojis("🇺🇸")
 
     #artist stats
-    st.write("#1 Trending Artist🎤")
+    st.write("#1 Trending Artist 🎤 Today")
     container = st.container(border=True)
     container.write(f"{top_artist_us}")
 
     #song stats
-    st.write("#1 Trending Song 🎵")
+    st.write("#1 Trending Song 🎵 Today")
     container = st.container(border=True)
     container.write(f"{top_song_us}")
 
     #explicit chart
     st.plotly_chart(us_pie)
 
-#$streamlit run Spotify_Dashboard.py
+#$streamlit run Project_Part_1.py
