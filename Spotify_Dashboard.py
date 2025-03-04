@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.express as px
+import pandas as pd
 from helper_functions_notebook import call_api, rain_emojis
 
 #api setup
@@ -14,11 +15,11 @@ spotify_data = call_api(dataset_path, file_name)
 
 #name column cleaning
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
-spotify_data = spotify_data.explode("artists")
+spotify_data2 = spotify_data.explode("artists")
 
 #filtering italy and US
-df_italy = spotify_data[spotify_data["country"] == "IT"]
-df_us = spotify_data[spotify_data["country"] == "US"]
+df_italy = spotify_data2[spotify_data2["country"] == "IT"]
+df_us = spotify_data2[spotify_data2["country"] == "US"]
 
 #italy stats
 top_artist_italy = df_italy["artists"].value_counts().idxmax()
@@ -44,6 +45,7 @@ italy_pie.update_traces(marker=dict(colors=["red", "green"]))
 #explicit songs in US
 df_us["is_explicit"] = df_us["is_explicit"].replace({True: " Yes", False: " No"})  
 explicit_us = df_us.groupby("is_explicit").size().reset_index(name="count")  
+
 us_pie = px.pie(explicit_us, 
                    names="is_explicit", 
                    values="count", 
@@ -53,6 +55,101 @@ us_pie = px.pie(explicit_us,
                    )
 
 us_pie.update_traces(marker=dict(colors=["red", "blue"]))
+
+
+# speechiness songs data
+it_speechiness = spotify_data[spotify_data["country"] == "IT"]["speechiness"].sum()
+us_speechiness = spotify_data[spotify_data["country"] == "US"]["speechiness"].sum()
+
+# merging us and it speechiness
+df_speechiness_sum = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Speechiness": [it_speechiness, us_speechiness]
+})
+
+# plot speechiness on a bar chart
+speechiness_bar = px.bar(df_speechiness_sum, x="Country", y="Total Speechiness",
+                         title="Who prefers speechy songs?",
+                         labels={"Total Speechiness": "Speechiness Score"},
+                         color="Country")
+
+
+
+
+# danceability songs data
+it_danceability = spotify_data[spotify_data["country"] == "IT"]["danceability"].sum()
+us_danceability = spotify_data[spotify_data["country"] == "US"]["danceability"].sum()
+
+# merging us and it danceability
+df_danceability_sum = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Danceability": [it_danceability, us_danceability]
+})
+
+# plot danceability on a bar chart
+danceability = px.bar(df_danceability_sum, x="Country", y="Total Danceability",
+                         title="Who prefers danceable songs?",
+                         labels={"Total Danceability": "Danceability Score"},
+                         color="Country")
+
+
+
+# Compute total acousticness for IT and US
+it_acousticness = spotify_data[spotify_data["country"] == "IT"]["acousticness"].sum()
+us_acousticness = spotify_data[spotify_data["country"] == "US"]["acousticness"].sum()
+
+# Merge into a DataFrame
+df_acousticness_sum = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Acousticness": [it_acousticness, us_acousticness]
+})
+
+# Create a bar chart
+acousticness_chart = px.bar(df_acousticness_sum, x="Country", y="Total Acousticness",
+                            title="Which country has more acoustic songs?",
+                            labels={"Total Acousticness": "Acousticness Score"},
+                            color="Country")
+
+
+
+# Compute total liveness for IT and US
+it_liveness = spotify_data[spotify_data["country"] == "IT"]["liveness"].sum()
+us_liveness = spotify_data[spotify_data["country"] == "US"]["liveness"].sum()
+
+# Merge into a DataFrame
+df_liveness_sum = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Liveness": [it_liveness, us_liveness]
+})
+
+# Create a bar chart
+liveness_chart = px.bar(df_liveness_sum, x="Country", y="Total Liveness",
+                        title="Which country has more live-feeling songs?",
+                        labels={"Total Liveness": "Liveness Score"},
+                        color="Country")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #dashboard
 
@@ -97,6 +194,18 @@ if selection == "Both":
     #explicit songs
     st.plotly_chart(italy_pie)
     st.plotly_chart(us_pie)
+
+    #speechiness songs
+    st.plotly_chart(speechiness_bar)
+
+    #danceability songs
+    st.plotly_chart(danceability)
+
+    # acousticness songs
+    st.plotly_chart(acousticness_chart)
+
+    # liveness songs
+    st.plotly_chart(liveness_chart)
 
 elif selection == "Italy":
     #welcome
