@@ -1,4 +1,5 @@
 import pandas as pd
+import random
 import matplotlib.pyplot as plt
 from kaggle.api.kaggle_api_extended import KaggleApi
 from streamlit_extras.let_it_rain import rain
@@ -67,16 +68,21 @@ def get_problematic_rows(file_path):
 
 # %%
 #loading dataset
-def load_dataset(file_path, skip_rows):
+def load_dataset(file_path, skip_rows, sample_size=1000):
     try:
-        df = pd.read_csv(file_path, skiprows=skip_rows)
+        total_rows = sum(1 for _ in open(file_path, 'r', encoding="iso-8859-1")) - 1  
+        
+        available_rows = list(set(range(1, total_rows + 1)) - set(skip_rows)) 
+        sampled_rows = sorted(random.sample(available_rows, min(sample_size, len(available_rows))))
+        
+        df = pd.read_csv(file_path, skiprows=lambda x: x not in sampled_rows and x != 0) 
         return df
     except Exception as e:
         raise RuntimeError(f"Error loading dataset: {e}")
 
 # %%
 #calling on API
-def call_api(dataset_path, file_name):
+def call_api(dataset_path, file_name, sample_size=1000):
     api = authenticate_kaggle_api()
     download_dataset(api, dataset_path)
     
