@@ -1,6 +1,14 @@
+import os
 import streamlit as st
 import plotly.express as px
+from kaggle.api.kaggle_api_extended import KaggleApi
 from helper_functions_notebook import call_api, rain_emojis
+
+#kaggle api key
+os.environ["KAGGLE_USERNAME"] = st.secrets["KAGGLE_USERNAME"]
+os.environ["KAGGLE_KEY"] = st.secrets["KAGGLE_KEY"]
+api = KaggleApi()
+api.authenticate()
 
 #loading dataset
 dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
@@ -75,21 +83,21 @@ if selection == "Both":
     #artist stats
     st.write("#1 Trending Artist in 🇮🇹 Today")
     container = st.container(border=True)
-    container.write(f"{top_artist_italy}")
+    container.write(f"{top_artist_italy} 🎤")
 
     st.write("#1 Trending Artist in 🇺🇸 Today")
     container = st.container(border=True)
-    container.write(f"{top_artist_us}")
+    container.write(f"{top_artist_us} 🎤")
 
     #song stats    
     st.write("#1 Trending Song in 🇮🇹 Today")
     container = st.container(border=True)
-    container.write(f"{top_song_italy}")
+    container.write(f"{top_song_italy} 🎵")
     
     #us
     st.write("#1 Trending Song in 🇺🇸 Today")
     container = st.container(border=True)
-    container.write(f"{top_song_us}")
+    container.write(f"{top_song_us} 🎵")
 
     #explicit songs
     st.plotly_chart(italy_pie)
