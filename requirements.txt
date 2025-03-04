@@ -8,3 +8,6 @@ matplotlib
 pytest 
 pytest-cov
 plotly-express
+os
+sys
+streamlit-extras
