@@ -95,7 +95,6 @@ if selection == "Both":
     st.plotly_chart(italy_pie)
     st.plotly_chart(us_pie)
 
-
 elif selection == "Italy":
     #welcome
     rain_emojis("🇮🇹")
