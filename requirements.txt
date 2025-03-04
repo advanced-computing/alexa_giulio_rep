@@ -8,5 +8,4 @@ matplotlib
 pytest 
 pytest-cov
 plotly-express
-altair
 streamlit-extras

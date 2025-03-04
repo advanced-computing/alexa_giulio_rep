@@ -50,26 +50,25 @@ file_name = 'universal_top_spotify_songs.csv'
 
 # calling api
 spotify_data = call_api(dataset_path, file_name)
-#check
-#print(spotify_data.head())
 
 # separate artists into individual categories in case they're grouped together (re. collabs)
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
 spotify_data = spotify_data.explode("artists")
 
-# group artists by average popularity
-artist_popularity = spotify_data.groupby("artists")["popularity"].mean()
+# Filter for Italy and select the snapshot date
+df_italy = spotify_data[spotify_data["country"] == "IT"]
 
-# select subset of artists to display for simplicity
-artist_popularity = artist_popularity.sort_values(ascending=False)
-popular_artists = artist_popularity.head(10)
+# Get the most frequent artist (the #1 artist from Italy)
+top_artist_italy = df_italy['artists'].value_counts().idxmax()
 
-# create widget to choose how many artists you can see
-display_widget = st.slider("Number of Artists to Display", min_value=1, max_value=10, value=10, step=1)
-
-# apply widget to artist_popularity subset
-popular_artists = popular_artists.head(display_widget)
-
-# make bar chart
-st.title("Popular Spotify Artists")
-st.bar_chart(popular_artists)
+with st.container():
+    # Use Markdown for a styled title
+    st.markdown(
+        f"""
+        <div style="padding: 20px; background-color: #f2f2f2; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <h3 style="text-align: center; color: #1DB954;">🎶 #1 Singer from Italy 🎶</h3>
+            <h4 style="text-align: center; color: #1DB954;">{top_artist_italy}</h4>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
