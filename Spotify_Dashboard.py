@@ -2,7 +2,7 @@ import os
 import streamlit as st
 import plotly.express as px
 import warnings
-from helper_functions_notebook import call_api, rain_emojis
+from helper_functions_notebook import call_api, rain_emojis 
 
 #api setup
 KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
