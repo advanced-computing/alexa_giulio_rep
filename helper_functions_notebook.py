@@ -58,7 +58,7 @@ def download_dataset(api, dataset_path):
 #making sure dataset can load properly by skipping bad rows
 def get_problematic_rows(file_path):
     problematic_rows = []
-    with open(file_path, 'r') as f:
+    with open(file_path, 'r', encoding="iso-8859-1", errors="replace") as f:
         lines = f.readlines()
         for i, line in enumerate(lines):
             if line.count(',') < 10 or len(line.split(',')) > 50: #used chat gpt to figure this logic out
