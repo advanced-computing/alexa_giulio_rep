@@ -1,4 +1,5 @@
 import pandas as pd
+import random
 import matplotlib.pyplot as plt
 from kaggle.api.kaggle_api_extended import KaggleApi
 from streamlit_extras.let_it_rain import rain
