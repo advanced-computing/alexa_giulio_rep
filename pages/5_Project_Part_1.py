@@ -20,5 +20,3 @@ artist_popularity = artist_popularity.head(display_widget)
 # make bar chart
 st.title("Top 40 Spotify Artists by Alexa and Giulio")
 st.bar_chart(artist_popularity)
-
-# $streamlit run spotify.py 

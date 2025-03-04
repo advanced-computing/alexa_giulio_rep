@@ -1,4 +1,4 @@
-import utils.helper_functions_notebook as helper_functions_notebook 
+import helper_functions_notebook as helper_functions_notebook 
 import streamlit as st
 import plotly.express as px
 
