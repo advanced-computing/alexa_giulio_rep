@@ -1,4 +1,3 @@
-import os
 import streamlit as st
 import plotly.express as px
 from helper_functions_notebook import call_api, rain_emojis
