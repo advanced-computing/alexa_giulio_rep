@@ -1,14 +1,7 @@
-import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from kaggle.api.kaggle_api_extended import KaggleApi
 from streamlit_extras.let_it_rain import rain
-
-#kaggle api key
-os.environ["KAGGLE_USERNAME"] = "alexashuetkaychan" 
-os.environ["KAGGLE_KEY"] = "84bfb4133ffe7bbd8e0f0d1d4d14b20f" 
-api = KaggleApi()
-api.authenticate()
 
 # %%
 #data prep function
