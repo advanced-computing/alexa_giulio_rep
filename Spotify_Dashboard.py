@@ -1,11 +1,17 @@
+import os
 import streamlit as st
 import plotly.express as px
+import warnings
 from helper_functions_notebook import call_api, rain_emojis
 
 #api setup
-#st.write("Secrets:", st.secrets)  
-#st.write("Kaggle Username:", os.getenv("KAGGLE_USERNAME"))
-#st.write("Kaggle Key:", os.getenv("KAGGLE_KEY"))
+KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
+KAGGLE_KEY = st.secrets["KAGGLE_KEY"]
+os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
+os.environ["KAGGLE_KEY"] = KAGGLE_KEY
+
+#app deployment
+warnings.filterwarnings("ignore", category=SyntaxWarning)
 
 #loading dataset
 dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
