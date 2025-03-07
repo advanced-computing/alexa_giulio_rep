@@ -9,3 +9,4 @@ pytest
 pytest-cov
 plotly-express
 streamlit-extras
+duckdb
