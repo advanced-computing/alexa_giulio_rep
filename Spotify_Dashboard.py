@@ -134,29 +134,6 @@ liveness_chart = px.bar(df_liveness_sum, x="Country", y="Total Liveness",
                         labels={"Total Liveness": "Liveness Score"},
                         color="Country")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #dashboard
 
 LOGO_URL_SMALL = "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
