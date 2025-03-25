@@ -3,74 +3,29 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 #import warnings
-from helper_functions_notebook import call_api, rain_emojis
+from helper_functions_notebook import rain_emojis
 import pandas_gbq
 import pydata_google_auth
-
-# configuration
-project_id = "sipa-adv-c-alexa-giulio"
-dataset = "spotify"
-table = "universal_top_spotify_songs"
-full_table_id = f"{project_id}.{dataset}.{table}"
-scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-
-# load data from api
-print("downloading dataset from kaggle...")
-spotify_data = call_api("asaniczka/top-spotify-songs-in-73-countries-daily-updated", "universal_top_spotify_songs.csv")
-print("dataset loaded successfully.")
-
-# authenticate with google cloud
-print("authenticating with google cloud...")
-credentials = pydata_google_auth.get_user_credentials(scopes)
-
-# incremental load logic
-try:
-    print("checking for existing records in bigquery...")
-    existing = pandas_gbq.read_gbq(
-        f"SELECT DISTINCT name FROM `{full_table_id}`",
-        project_id=project_id,
-        credentials=credentials
-    )
-
-    existing_names = set(existing['name'].str.lower())
-    spotify_data["name_lower"] = spotify_data["name"].str.lower()
-    new_data = spotify_data[~spotify_data["name_lower"].isin(existing_names)].drop(columns=["name_lower"])
-
-except Exception as e:
-    print(f"could not query existing data: {e}")
-    print("uploading entire dataset.")
-    new_data = spotify_data
-
-# upload to bigquery
-if not new_data.empty:
-    print(f"uploading {len(new_data)} new records to bigquery...")
-    pandas_gbq.to_gbq(
-        new_data,
-        full_table_id,
-        project_id=project_id,
-        credentials=credentials,
-        if_exists="append"
-    )
-    print("upload complete.")
-else:
-    print("no new records to upload.")
-
-# get GCP credentials from secrets
 from google.oauth2 import service_account
+
+# cloud bigquery
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
+project_id = st.secrets["gcp_service_account"]["project_id"]
+dataset = "spotify"
+table = "universal_top_spotify_songs"
 
-# use credentials to query
-PROJECT_ID = st.secrets["gcp_service_account"]["project_id"]
-DATASET = "spotify"
-TABLE = "universal_top_spotify_songs"
-FULL_TABLE_ID = f"{PROJECT_ID}.{DATASET}.{TABLE}"
+# Fixed query string to avoid any hidden characters
+query = f"""
+    SELECT * 
+    FROM `{project_id}.{dataset}.{table}` 
+    LIMIT 2000
+"""  # limit to 2000 rows for performance
 
-query = f"SELECT * FROM `{FULL_TABLE_ID}` LIMIT 10"
-df = pandas_gbq.read_gbq(query, project_id=PROJECT_ID, credentials=credentials)
+# loading data
+spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
 
-st.write(df)
 
 #name column cleaning
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
@@ -89,7 +44,7 @@ top_artist_us = df_us["artists"].value_counts().idxmax()
 top_song_us = df_us["name"].value_counts().idxmax()
 
 #explicit songs in italy
-df_italy["is_explicit"] = df_italy["is_explicit"].replace({True: " Yes", False: " No"})  
+df_italy["is_explicit"] = df_italy["is_explicit"].astype("object").replace({True: "Yes", False: "No"})    
 explicit_italy = df_italy.groupby("is_explicit").size().reset_index(name="count") 
 
 italy_pie = px.pie(explicit_italy, 
@@ -102,7 +57,7 @@ italy_pie = px.pie(explicit_italy,
 italy_pie.update_traces(marker=dict(colors=["red", "green"]))
 
 #explicit songs in US
-df_us["is_explicit"] = df_us["is_explicit"].replace({True: " Yes", False: " No"})  
+df_us["is_explicit"] = df_us["is_explicit"].astype("object").replace({True: "Yes", False: "No"})    
 explicit_us = df_us.groupby("is_explicit").size().reset_index(name="count")  
 
 us_pie = px.pie(explicit_us, 
@@ -150,8 +105,6 @@ danceability = px.bar(df_danceability_sum, x="Country", y="Total Danceability",
                          title="Who prefers danceable songs?",
                          labels={"Total Danceability": "Danceability Score"},
                          color="Country")
-
-
 
 # Compute total acousticness for IT and US
 it_acousticness = spotify_data[spotify_data["country"] == "IT"]["acousticness"].sum()
