@@ -1,4 +1,4 @@
-import pandas as pd
+#import pandas as pd
 import pandas_gbq
 import pydata_google_auth
 from helper_functions_notebook import call_api
