@@ -21,6 +21,7 @@ query = f"""
 
 # Load Data from BigQuery
 spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
+st.success("✅ Fetched data from BigQuery!")
 
 # Cleaning & Transformations
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
