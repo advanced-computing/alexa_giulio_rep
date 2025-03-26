@@ -76,8 +76,6 @@ speechiness_bar = px.bar(df_speechiness_sum, x="Country", y="Total Speechiness",
                          color="Country")
 
 
-
-
 # danceability songs data
 it_danceability = spotify_data[spotify_data["country"] == "IT"]["danceability"].sum()
 us_danceability = spotify_data[spotify_data["country"] == "US"]["danceability"].sum()
