@@ -6,7 +6,7 @@ import pandas as pd
 import warnings
 from helper_functions_notebook import rain_emojis  # keep this for visuals
 
-# Google Cloud BigQuery
+#bigquery
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
@@ -17,11 +17,10 @@ query = f"""
     SELECT * 
     FROM {project_id}.{dataset}.{table} 
     LIMIT 2000
-"""  # limit to 2000 rows for performance
+"""  
 
-# Load Data from BigQuery
+#loading
 spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
-st.success("✅ Fetched data from BigQuery!")
 
 # Cleaning & Transformations
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
