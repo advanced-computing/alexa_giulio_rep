@@ -1,65 +1,61 @@
-import os
 import streamlit as st
+import pandas_gbq
+from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
 import warnings
-from helper_functions_notebook import call_api, rain_emojis
+from helper_functions_notebook import rain_emojis  # keep this for visuals
 
-#api setup
-KAGGLE_USERNAME = st.secrets["KAGGLE_USERNAME"]
-KAGGLE_KEY = st.secrets["KAGGLE_KEY"]
-os.environ["KAGGLE_USERNAME"] = KAGGLE_USERNAME
-os.environ["KAGGLE_KEY"] = KAGGLE_KEY
+# Google Cloud BigQuery Setup
+credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+)
+project_id = st.secrets["gcp_service_account"]["project_id"]
+dataset = "spotify"
+table = "universal_top_spotify_songs"
+query = f"""
+    SELECT * 
+    FROM {project_id}.{dataset}.{table} 
+    LIMIT 2000
+"""  # limit to 2000 rows for performance
 
-#app deployment
-warnings.filterwarnings("ignore", category=SyntaxWarning)
+# Load Data from BigQuery
+spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
 
-#loading dataset
-dataset_path = 'asaniczka/top-spotify-songs-in-73-countries-daily-updated'
-file_name = 'universal_top_spotify_songs.csv'
-spotify_data = call_api(dataset_path, file_name)
-
-#name column cleaning
+# Cleaning & Transformations
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
 spotify_data2 = spotify_data.explode("artists")
 
-#filtering italy and US
 df_italy = spotify_data2[spotify_data2["country"] == "IT"]
 df_us = spotify_data2[spotify_data2["country"] == "US"]
 
-#italy stats
 top_artist_italy = df_italy["artists"].value_counts().idxmax()
 top_song_italy = df_italy["name"].value_counts().idxmax()
 
-#us stats
 top_artist_us = df_us["artists"].value_counts().idxmax()
 top_song_us = df_us["name"].value_counts().idxmax()
 
-#explicit songs in italy
-df_italy["is_explicit"] = df_italy["is_explicit"].replace({True: " Yes", False: " No"})  
+# Pie Charts
+df_italy["is_explicit"] = df_italy["is_explicit"].astype("object").replace({True: "Yes", False: "No"})  
 explicit_italy = df_italy.groupby("is_explicit").size().reset_index(name="count") 
 
 italy_pie = px.pie(explicit_italy, 
                 names="is_explicit", 
                 values="count", 
                 hole=0.3, 
-                title="Explicit vs Non Explicit Songs in Italy: Do listeners prefer songs with or without profanity?",
-                labels={"is_explicit": "Explicit?"}
-                )
+                title="Explicit vs Non Explicit Songs in Italy",
+                labels={"is_explicit": "Explicit?"})
 italy_pie.update_traces(marker=dict(colors=["red", "green"]))
 
-#explicit songs in US
-df_us["is_explicit"] = df_us["is_explicit"].replace({True: " Yes", False: " No"})  
+df_us["is_explicit"] = df_us["is_explicit"].astype("object").replace({True: " Yes", False: " No"})  
 explicit_us = df_us.groupby("is_explicit").size().reset_index(name="count")  
 
 us_pie = px.pie(explicit_us, 
-                   names="is_explicit", 
-                   values="count", 
-                   hole=0.3, 
-                   title="Explicit vs Non Explicit Songs in US: Do listeners prefer songs with or without profanity?",
-                   labels={"is_explicit": "Explicit?"}
-                   )
-
+                names="is_explicit", 
+                values="count", 
+                hole=0.3, 
+                title="Explicit vs Non Explicit Songs in US",
+                labels={"is_explicit": "Explicit?"})
 us_pie.update_traces(marker=dict(colors=["red", "blue"]))
 
 
