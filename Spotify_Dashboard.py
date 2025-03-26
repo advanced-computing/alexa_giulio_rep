@@ -6,7 +6,7 @@ import pandas as pd
 import warnings
 from helper_functions_notebook import rain_emojis  # keep this for visuals
 
-# Google Cloud BigQuery Setup
+# Google Cloud BigQuery
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
