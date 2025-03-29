@@ -4,9 +4,8 @@ from google.oauth2 import service_account
 import plotly.express as px
 import pandas as pd
 #import warnings
-#from helper_functions_notebook import rain_emojis  
-import streamlit as st
 import folium
+from helper_functions_notebook import rain_emojis
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
@@ -56,29 +55,27 @@ for country, (lat, lon, page) in locations.items():
 
 # Display the map in Streamlit
 st_folium(m, width=700, height=500)
+rain_emojis("🎵")
 
 # Add a selectbox to allow users to choose a country
 selected_country = st.selectbox("Select a country to navigate:", list(locations.keys()))
 selected_page = locations[selected_country][2]
 
-# Function to display content based on the selected page
-def navigate_to_page(page):
-    if page == 'Page 1':
-        st.write("You are on Page 1!")
-        # Add content specific to Page 1
-    elif page == 'Page 2':
-        st.write("You are on Page 2!")
-        # Add content specific to Page 2
-    elif page == 'Page 3':
-        st.write("You are on Page 3!")
-        # Add content specific to Page 3
-    elif page == 'Page 4':
-        st.write("You are on Page 4!")
-        # Add content specific to Page 4
-    elif page == 'Page 5':
-        st.write("You are on Page 5!")
-        # Add content specific to Page 5
 
+
+#individual pages
+if selected_country == "Italy":
+    #welcome
+    st.page_link(page,"1_Italy")
+elif selection == "US":
+    pass
+elif selection == "Great Britain":
+    pass
+elif selection == "France":
+    pass
+elif selection == "Spain":
+    pass
+   
 # Navigate to the page based on the selected country
 navigate_to_page(selected_page)
 
