@@ -13,3 +13,5 @@ duckdb
 pandas-gbq 
 google-cloud-bigquery 
 openpyxl
+folium
+streamlit_folium
