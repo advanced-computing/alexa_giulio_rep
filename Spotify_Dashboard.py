@@ -32,18 +32,19 @@ query = f"""
     FROM `{project_id}.{dataset}.{table}` 
     WHERE country IN ('IT','US','FR','ES','GB')
 """  
+#creating list of coordinates and corresponding pages
 locations = {
-    "Italy": [41.8719, 12.5674, "Page 1"],  
-    "US": [38.79468, -74.0060, "Page 2"],  
-    "Great Britain": [51.5074, -0.1278, "Page 3"], 
-    "France": [46.6034, 1.8883, "Page 4"],  
-    "Spain": [40.4637, -3.7492, "Page 5"] 
+    "Italy": [41.8719, 12.5674, "pages/1_Italy.py"],  
+    "US": [38.79468, -74.0060, "pages/2_US.py"],  
+    "Great Britain": [51.5074, -0.1278, "pages/3_Great_Britain.py"], 
+    "France": [46.6034, 1.8883, "pages/4_France.py"],  
+    "Spain": [40.4637, -3.7492, "pages/5_Spain.py"] 
 }
 
-# Initialize the map
+#setting initial location for map
 m = folium.Map(location=[46.1101, -37.0669], zoom_start=2.5)
 
-# Add markers to the map with country name as popup
+#adding country markers on map
 marker_cluster = MarkerCluster().add_to(m)
 for country, (lat, lon, page) in locations.items():
     folium.Marker(
@@ -53,30 +54,14 @@ for country, (lat, lon, page) in locations.items():
         icon=folium.Icon(color='blue')
     ).add_to(marker_cluster)
 
-# Display the map in Streamlit
+#display map
 st_folium(m, width=700, height=500)
 rain_emojis("🎵")
 
-# Add a selectbox to allow users to choose a country
-selected_country = st.selectbox("Select a country to navigate:", list(locations.keys()))
-selected_page = locations[selected_country][2]
+#choosing country
+selection = st.selectbox("Select a country to navigate:", list(locations.keys()))
 
-
-
-#individual pages
-if selected_country == "Italy":
-    #welcome
-    st.page_link(page,"1_Italy")
-elif selection == "US":
-    pass
-elif selection == "Great Britain":
-    pass
-elif selection == "France":
-    pass
-elif selection == "Spain":
-    pass
-   
-# Navigate to the page based on the selected country
-navigate_to_page(selected_page)
+if st.button("Go to selected page"):
+    st.switch_page(locations[selection][2])
 
 #streamlit run Spotify_Dashboard.py 

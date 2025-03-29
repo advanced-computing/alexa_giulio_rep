@@ -4,6 +4,8 @@ import pandas as pd
 from Spotify_Dashboard import spotify_data
 from helper_functions_notebook import rain_emojis 
 
+st.page("pages/1_Italy.py")
+
 # cleaning
 spotify_data["artists"] = spotify_data["artists"].str.split(", ")
 spotify_data2 = spotify_data.explode("artists")
