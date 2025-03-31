@@ -62,15 +62,16 @@ for country, (lat, lon, page) in locations.items():
     ).add_to(marker_cluster)
 
 #choosing country
-selection = st.selectbox("Select a country:", list(locations.keys()))
+selection = st.pills(
+    "Select a country:",
+    options=list(locations.keys()),
+)
 if st.button("Go to country"):
     st.switch_page(locations[selection][2])
 
 #display map
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
-
-
 
 #rating
 st.write("Rate our app:")
