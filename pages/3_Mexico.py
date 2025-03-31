@@ -13,48 +13,48 @@ if utils_path not in sys.path:
 from helper_functions_notebook import rain_emojis # noqa: E402
 
 #Intro
-st.header("Welcome to Great Britain!")
-rain_emojis("🇬🇧")
+st.header("Benvenuti in Messico!")
+rain_emojis("🇲🇽")
 
 #sectioning country specific data
-df_gb = spotify_data2[spotify_data2["country"] == "GB"]
+df_mex = spotify_data2[spotify_data2["country"] == "MX"]
 
 #artist data
-df_gb["artists"] = df_gb["artists"].astype(str) 
-artist_counts = df_gb["artists"].value_counts()
+df_mex["artists"] = df_mex["artists"].astype(str) 
+artist_counts = df_mex["artists"].value_counts()
 top_artist = artist_counts.idxmax()
 
 #top artist
-st.write("#1 Trending Artist in 🇬🇧 Today")
+st.write("#1 Trending Artist in 🇲🇽 Today")
 container = st.container(border=True)
 container.write(f"{top_artist} 🎤 ")
 
 #song data
-df_gb["name"] = df_gb["name"].astype(str)
-song_counts = df_gb["name"].value_counts()
+df_mex["name"] = df_mex["name"].astype(str)
+song_counts = df_mex["name"].value_counts()
 top_song = song_counts.idxmax()
 
 #top song
-st.write("#1 Trending Song in 🇬🇧 Today")
+st.write("#1 Trending Song in 🇲🇽 Today")
 container = st.container(border=True)
 container.write(f"{top_song} 🎵")
 
 #map
-coordinates = [54.7020, -3.2750]
+coordinates = [23.6345, -102.5528]
 map = folium.Map(location=[coordinates[0], coordinates[1]], zoom_start=6)
 
 folium.Marker(
     location=[coordinates[0], coordinates[1]],
-    popup="Great Britain",
-    tooltip="Great Britain",
+    popup="Mexico",
+    tooltip="Mexico",
     icon=folium.Icon(color="red")
 ).add_to(map)
 
 st_folium(map, width=700, height=500)
 
 #explicit pie
-df_gb["is_explicit"] = df_gb["is_explicit"].astype(str).replace({"True": "Yes", "False": "No"})
-explicit_df = df_gb.groupby("is_explicit").size().reset_index(name="count") 
+df_mex["is_explicit"] = df_mex["is_explicit"].astype(str).replace({"True": "Yes", "False": "No"})
+explicit_df = df_mex.groupby("is_explicit").size().reset_index(name="count") 
 
 explicit_pie = px.pie(explicit_df, 
                 names="is_explicit", 

@@ -16,7 +16,7 @@ table = "universal_top_spotify_songs"
 query = f"""
     SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness
     FROM `{project_id}.{spotify_data}.{table}` 
-    WHERE country IN ('IT','US','FR','ES','GB')
+    WHERE country IN ('IT','US','FR','ES','MX')
 """  
 spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
 
@@ -43,13 +43,13 @@ rain_emojis("🎵")
 locations = {
     "Italy": [41.8719, 12.5674, "pages/1_Italy.py"],  
     "US": [38.79468, -74.0060, "pages/2_US.py"],  
-    "Great Britain": [51.5074, -0.1278, "pages/3_Great_Britain.py"], 
+    "Mexico": [19.4326, -99.1332, "pages/3_Mexico.py"], 
     "France": [46.6034, 1.8883, "pages/4_France.py"],  
     "Spain": [40.4637, -3.7492, "pages/5_Spain.py"] 
 }
 
 #setting initial location for map
-map = folium.Map(location=[46.1101, -37.0669], zoom_start=2.5)
+map = folium.Map(location=[46.1101, -37.0669], zoom_start=2)
 
 #adding country markers on map
 marker_cluster = MarkerCluster().add_to(map)
