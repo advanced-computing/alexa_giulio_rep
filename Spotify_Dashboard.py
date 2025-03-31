@@ -6,17 +6,6 @@ from helper_functions_notebook import rain_emojis
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 
-LOGO_URL_SMALL = "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
-st.logo(
-    LOGO_URL_SMALL,
-    link="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png",
-    icon_image=LOGO_URL_SMALL,
-)
-st.title("Spotify Streaming Analysis")
-st.header("by Alexa and Giulio")
-st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spotify Songs in 73 Countries (Daily Updated)\" dataset to analyze music trends across the world. Hope you enjoy!")
-st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spotify-songs-in-73-countries-daily-updated?resource=download)")
-
 # bigquery
 credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
@@ -35,6 +24,19 @@ spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=cre
 spotify_data["artists"] = spotify_data["artists"].astype(str).str.split(", ")
 spotify_data2 = spotify_data.explode("artists")
 spotify_data2["artists"] = spotify_data2["artists"].str.strip("[]'\" ")
+
+#intro
+LOGO_URL_SMALL = "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
+st.logo(
+    LOGO_URL_SMALL,
+    link="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png",
+    icon_image=LOGO_URL_SMALL,
+)
+st.title("Spotify Streaming Analysis")
+st.header("by Alexa and Giulio")
+st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spotify Songs in 73 Countries (Daily Updated)\" dataset to analyze music trends across the world. Hope you enjoy!")
+st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spotify-songs-in-73-countries-daily-updated?resource=download)")
+rain_emojis("🎵") 
 
 
 #creating list of coordinates and corresponding pages
@@ -59,18 +61,16 @@ for country, (lat, lon, page) in locations.items():
         icon=folium.Icon(color='blue')
     ).add_to(marker_cluster)
 
+#choosing country
+selection = st.selectbox("Select a country:", list(locations.keys()))
+if st.button("Go to country"):
+    st.switch_page(locations[selection][2])
+
 #display map
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
 
-#emoji rain
-rain_emojis("🎵") 
 
-#choosing country
-selection = st.selectbox("Select a country:", list(locations.keys()))
-
-if st.button("Go to country"):
-    st.switch_page(locations[selection][2])
 
 #rating
 st.write("Rate us:")
