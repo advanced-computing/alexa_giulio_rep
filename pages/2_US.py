@@ -41,7 +41,7 @@ container.write(f"{top_song} 🎵")
 
 #map
 coordinates = [39.8283, -98.5795]
-map = folium.Map(location=[coordinates[0], coordinates[1]], zoom_start=6)
+map = folium.Map(location=[coordinates[0], coordinates[1]], zoom_start=4)
 
 folium.Marker(
     location=[coordinates[0], coordinates[1]],
@@ -53,14 +53,14 @@ folium.Marker(
 st_folium(map, width=700, height=500)
 
 #explicit pie
-df_us["is_explicit"] = df_us["is_explicit"].astype(str).replace({"True": "Yes", "False": "No"})
+df_us["is_explicit"] = df_us["is_explicit"].astype(str).replace({"True": "Yes (With Profanity)", "False": "No (Without Profanity)"})
 explicit_us = df_us.groupby("is_explicit").size().reset_index(name="count") 
 
 explicit_pie = px.pie(explicit_us, 
                 names="is_explicit", 
                 values="count", 
                 hole=0.3, 
-                title="Explicit vs Non Explicit Songs: Do listeners prefer songs with or without profanity?",
+                title=" Do listeners prefer songs with or without profanity?",
                 labels={"is_explicit": "Explicit?"}
                 )
 explicit_pie.update_traces(marker=dict(colors=["red", "green"]))

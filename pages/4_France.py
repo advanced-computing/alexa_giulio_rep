@@ -53,14 +53,14 @@ folium.Marker(
 st_folium(map, width=700, height=500)
 
 #explicit pie
-df_france["is_explicit"] = df_france["is_explicit"].astype(str).replace({"True": "Yes", "False": "No"})
+df_france["is_explicit"] = df_france["is_explicit"].astype(str).replace({"True": "Yes (With Profanity)", "False": "No (Without Profanity)"})
 explicit_df = df_france.groupby("is_explicit").size().reset_index(name="count") 
 
 explicit_pie = px.pie(explicit_df, 
                 names="is_explicit", 
                 values="count", 
                 hole=0.3, 
-                title="Explicit vs Non Explicit Songs: Do listeners prefer songs with or without profanity?",
+                title="Do listeners prefer songs with or without profanity?",
                 labels={"is_explicit": "Explicit?"}
                 )
 explicit_pie.update_traces(marker=dict(colors=["red", "green"]))

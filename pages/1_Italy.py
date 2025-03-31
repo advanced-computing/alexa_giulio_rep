@@ -53,16 +53,15 @@ folium.Marker(
 st_folium(map, width=700, height=500)
 
 #explicit pie
-df_italy["is_explicit"] = df_italy["is_explicit"].astype(str).replace({"True": "Yes", "False": "No"})
+df_italy["is_explicit"] = df_italy["is_explicit"].astype(str).replace({"True": "Yes (With Profanity)", "False": "No (Without Profanity)"})
 explicit_italy = df_italy.groupby("is_explicit").size().reset_index(name="count") 
 
 explicit_pie = px.pie(explicit_italy, 
                 names="is_explicit", 
                 values="count", 
                 hole=0.3, 
-                title="Explicit vs Non Explicit Songs: Do listeners prefer songs with or without profanity?",
-                labels={"is_explicit": "Explicit?"}
-                )
+                title=" Do listeners prefer songs with or without profanity?",
+                labels={"is_explicit": "Explicit?"})
 explicit_pie.update_traces(marker=dict(colors=["red", "green"]))
 
 st.plotly_chart(explicit_pie)
