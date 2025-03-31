@@ -69,7 +69,7 @@ rain_emojis("🎵")
 #choosing country
 selection = st.selectbox("Select a country:", list(locations.keys()))
 
-if st.button("Go to selected page"):
+if st.button("Head to country"):
     st.switch_page(locations[selection][2])
 
 #rating
@@ -80,5 +80,5 @@ with st.form("feedback_form"):
 
 if submitted:
     st.session_state.rating = rating
-    st.write(f"Thanks for rating us!")
+    st.write("Thanks for rating us!")
 #streamlit run Spotify_Dashboard.py 
