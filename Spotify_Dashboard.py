@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas_gbq
 from google.oauth2 import service_account
-import plotly.express as px
-import pandas as pd
-#import warnings
 import folium
 from helper_functions_notebook import rain_emojis
 from folium.plugins import MarkerCluster
@@ -85,4 +82,3 @@ if submitted:
     st.session_state.rating = rating
     st.write(f"Thanks for rating us!")
 #streamlit run Spotify_Dashboard.py 
-

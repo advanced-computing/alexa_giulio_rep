@@ -1,15 +1,14 @@
 import streamlit as st
 import plotly.express as px
-import pandas as pd
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from Spotify_Dashboard import spotify_data2
+from Spotify_Dashboard import spotify_data2 # noqa: E402
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 utils_path = os.path.join(project_root, "utils")
 if utils_path not in sys.path:
     sys.path.append(utils_path)
-from helper_functions_notebook import call_api, rain_emojis 
+from helper_functions_notebook import rain_emojis # noqa: E402
 
 #Intro
 st.header("Benvenuto a Italia!")
