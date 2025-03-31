@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas_gbq
 from google.oauth2 import service_account
-import plotly.express as px
-import pandas as pd
-#import warnings
 import folium
 from helper_functions_notebook import rain_emojis
 from folium.plugins import MarkerCluster
@@ -25,13 +22,21 @@ credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
 )
 project_id = st.secrets["gcp_service_account"]["project_id"]
-dataset = "spotify"
+spotify_data = "spotify"
 table = "universal_top_spotify_songs"
 query = f"""
     SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness
-    FROM `{project_id}.{dataset}.{table}` 
+    FROM `{project_id}.{spotify_data}.{table}` 
     WHERE country IN ('IT','US','FR','ES','GB')
 """  
+spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
+
+# cleaning the data
+spotify_data["artists"] = spotify_data["artists"].astype(str).str.split(", ")
+spotify_data2 = spotify_data.explode("artists")
+spotify_data2["artists"] = spotify_data2["artists"].str.strip("[]'\" ")
+
+
 #creating list of coordinates and corresponding pages
 locations = {
     "Italy": [41.8719, 12.5674, "pages/1_Italy.py"],  
@@ -55,13 +60,25 @@ for country, (lat, lon, page) in locations.items():
     ).add_to(marker_cluster)
 
 #display map
+st.write("Check out this map to see which countries we feature on our app:")
 st_folium(m, width=700, height=500)
-rain_emojis("🎵")
+
+#emoji rain
+rain_emojis("🎵") 
 
 #choosing country
-selection = st.selectbox("Select a country to navigate:", list(locations.keys()))
+selection = st.selectbox("Select a country:", list(locations.keys()))
 
-if st.button("Go to selected page"):
+if st.button("Head to country"):
     st.switch_page(locations[selection][2])
 
+#rating
+st.write("Rate us:")
+with st.form("feedback_form"):
+    rating = st.feedback(options="stars")
+    submitted = st.form_submit_button("Submit")
+
+if submitted:
+    st.session_state.rating = rating
+    st.write("Thanks for rating us!")
 #streamlit run Spotify_Dashboard.py 

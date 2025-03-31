@@ -10,7 +10,7 @@ Alexa is a second-year MIA candidate at Columbia University SIPA where she conce
          
 [Linkedin](https://www.linkedin.com/in/alexa-chan-b37a971a5)
 """)
-st.image("images/Screenshot 2025-03-28 at 6.09.25 PM.jpeg")
+st.image("images/Screenshot 2025-03-31 at 2.48.04 PM.png")
 
 #about us: giulio
 st.markdown("<h1 style='text-align: center;'>Giulio Trombin</h1>", unsafe_allow_html=True)
