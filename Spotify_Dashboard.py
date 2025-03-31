@@ -73,7 +73,7 @@ st_folium(map, width=700, height=500)
 
 
 #rating
-st.write("Rate us:")
+st.write("Rate our app:")
 with st.form("feedback_form"):
     rating = st.feedback(options="stars")
     submitted = st.form_submit_button("Submit")
