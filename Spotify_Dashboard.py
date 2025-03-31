@@ -47,10 +47,10 @@ locations = {
 }
 
 #setting initial location for map
-m = folium.Map(location=[46.1101, -37.0669], zoom_start=2.5)
+map = folium.Map(location=[46.1101, -37.0669], zoom_start=2.5)
 
 #adding country markers on map
-marker_cluster = MarkerCluster().add_to(m)
+marker_cluster = MarkerCluster().add_to(map)
 for country, (lat, lon, page) in locations.items():
     folium.Marker(
         location=[lat, lon],
@@ -61,7 +61,7 @@ for country, (lat, lon, page) in locations.items():
 
 #display map
 st.write("Check out this map to see which countries we feature on our app:")
-st_folium(m, width=700, height=500)
+st_folium(map, width=700, height=500)
 
 #emoji rain
 rain_emojis("🎵") 
@@ -69,7 +69,7 @@ rain_emojis("🎵")
 #choosing country
 selection = st.selectbox("Select a country:", list(locations.keys()))
 
-if st.button("Head to country"):
+if st.button("Go to country"):
     st.switch_page(locations[selection][2])
 
 #rating

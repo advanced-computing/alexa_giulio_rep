@@ -2,6 +2,9 @@ import streamlit as st
 import plotly.express as px
 import sys
 import os
+import folium
+from folium.plugins import MarkerCluster
+from streamlit_folium import st_folium
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from Spotify_Dashboard import spotify_data2 # noqa: E402
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -25,7 +28,7 @@ top_artist_italy = artist_counts.idxmax()
 #top artist
 st.write("#1 Trending Artist in 🇮🇹 Today")
 container = st.container(border=True)
-container.write(f"{top_artist_italy}")
+container.write(f"{top_artist_italy} 🎤 ")
 
 #song data
 df_italy["name"] = df_italy["name"].astype(str)
@@ -35,7 +38,20 @@ top_song_italy = song_counts.idxmax()
 #top song
 st.write("#1 Trending Song in 🇮🇹 Today")
 container = st.container(border=True)
-container.write(f"{top_song_italy}")
+container.write(f"{top_song_italy} 🎵")
+
+#map of italy
+italy_map = [41.8719, 12.5674]
+map = folium.Map(location=[italy_map[0], italy_map[1]], zoom_start=6)
+
+folium.Marker(
+    location=[italy_map[0], italy_map[1]],
+    popup="Italy",
+    tooltip="Italy",
+    icon=folium.Icon(color="red")
+).add_to(map)
+
+st_folium(map, width=700, height=500)
 
 #explicit pie
 df_italy["is_explicit"] = df_italy["is_explicit"].astype(str).replace({"True": "Yes", "False": "No"})
