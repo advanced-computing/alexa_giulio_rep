@@ -3,14 +3,15 @@ import plotly.express as px
 import sys
 import os
 import folium
+import pandas as pd
 from streamlit_folium import st_folium
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from Spotify_Dashboard import spotify_data2 # noqa: E402
+from Spotify_Dashboard import spotify_data2, rain_emojis # noqa: E402
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 utils_path = os.path.join(project_root, "utils")
 if utils_path not in sys.path:
     sys.path.append(utils_path)
-from helper_functions_notebook import rain_emojis # noqa: E402
+from helper_functions_notebook import danceability_it_us, acousticness_it_us, danceability_it_mex, acousticness_it_mex, danceability_it_fr, acousticness_it_fr, danceability_it_es, acousticness_it_es # noqa: E402
 
 #Intro
 st.header("Benvenuto in Italia!")
@@ -65,3 +66,21 @@ explicit_pie = px.pie(explicit_italy,
 explicit_pie.update_traces(marker=dict(colors=["red", "green"]))
 
 st.plotly_chart(explicit_pie)
+
+selection = st.pills(
+    "Select a country:",
+    options=["US","Mexico","France","Spain"]
+)
+
+if selection == "US":
+    st.plotly_chart(danceability_it_us)
+    st.plotly_chart(acousticness_it_us)
+elif selection == "Mexico":
+    st.plotly_chart(danceability_it_mex)
+    st.plotly_chart(acousticness_it_mex)
+elif selection == "Spain":
+    st.plotly_chart(danceability_it_es)
+    st.plotly_chart(acousticness_it_es)
+elif selection == "France":
+    st.plotly_chart(danceability_it_fr)
+    st.plotly_chart(acousticness_it_fr)

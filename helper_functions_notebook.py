@@ -1,8 +1,9 @@
 import pandas as pd
 import random
+import plotly_express as px
 import matplotlib.pyplot as plt
 from kaggle.api.kaggle_api_extended import KaggleApi
-from streamlit_extras.let_it_rain import rain
+from Spotify_Dashboard import spotify_data2
 
 # %%
 #data prep function
@@ -93,14 +94,98 @@ def call_api(dataset_path, file_name, sample_size=1000):
     return df
 
 # %%
-#dash elements: emoji rain 
 
-def rain_emojis(emoji):
-        rain(
-            emoji=emoji,
-            font_size=54,
-            falling_speed=10,
-            animation_length=5,
-        )
 
-  
+  #analysis for other graphs
+#country vs country
+
+#danceability
+it_danceability = spotify_data2[spotify_data2["country"] == "IT"]["danceability"].sum()
+us_danceability = spotify_data2[spotify_data2["country"] == "US"]["danceability"].sum()
+mex_danceability = spotify_data2[spotify_data2["country"] == "MX"]["danceability"].sum()
+fr_danceability = spotify_data2[spotify_data2["country"] == "FR"]["danceability"].sum()
+es_danceability = spotify_data2[spotify_data2["country"] == "ES"]["danceability"].sum()
+
+# italy us danceability
+df_danceability_it_us = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Danceability": [it_danceability, us_danceability]
+})
+danceability_it_us = px.bar(df_danceability_it_us, x="Country", y="Total Danceability",
+                         title="Who prefers danceable songs?",
+                         labels={"Total Danceability": "Danceability Score"},
+                         color="Country")
+# italy mex danceability
+df_danceability_it_mex = pd.DataFrame({
+    "Country": ["Italy (IT)", "Mexico (MX)"],
+    "Total Danceability": [it_danceability, mex_danceability]
+})
+danceability_it_mex = px.bar(df_danceability_it_mex, x="Country", y="Total Danceability",
+                         title="Who prefers danceable songs?",
+                         labels={"Total Danceability": "Danceability Score"},
+                         color="Country")
+# italy france danceability
+df_danceability_it_fr = pd.DataFrame({
+    "Country": ["Italy (IT)", "France (FR)"],
+    "Total Danceability": [it_danceability, fr_danceability]
+})
+danceability_it_fr = px.bar(df_danceability_it_fr, x="Country", y="Total Danceability",
+                         title="Who prefers danceable songs?",
+                         labels={"Total Danceability": "Danceability Score"},
+                         color="Country")
+
+# italy spain danceability
+df_danceability_it_es = pd.DataFrame({
+    "Country": ["Italy (IT)", "Spain (ES)"],
+    "Total Danceability": [it_danceability, es_danceability]
+})
+danceability_it_es = px.bar(df_danceability_it_es, x="Country", y="Total Danceability",
+                         title="Who prefers danceable songs?",
+                         labels={"Total Danceability": "Danceability Score"},
+                         color="Country")
+
+#acoustic
+it_acousticness = spotify_data2[spotify_data2["country"] == "IT"]["acousticness"].sum()
+us_acousticness = spotify_data2[spotify_data2["country"] == "US"]["acousticness"].sum()
+mex_acousticness = spotify_data2[spotify_data2["country"] == "MX"]["acousticness"].sum()
+fr_acousticness = spotify_data2[spotify_data2["country"] == "FR"]["acousticness"].sum()
+es_acousticness = spotify_data2[spotify_data2["country"] == "ES"]["acousticness"].sum()
+
+#italy us acousticness
+df_acousticness_it_us = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Acousticness": [it_acousticness, us_acousticness]
+})
+acousticness_it_us = px.bar(df_acousticness_it_us, x="Country", y="Total Acousticness",
+                            title="Which country prefers acoustic songs?",
+                            labels={"Total Acousticness": "Acousticness Score"},
+                            color="Country")
+
+#italy mex acousticness
+df_acousticness_it_mex = pd.DataFrame({
+    "Country": ["Italy (IT)", "United States (US)"],
+    "Total Acousticness": [it_acousticness, mex_acousticness]
+})
+acousticness_it_mex = px.bar(df_acousticness_it_mex, x="Country", y="Total Acousticness",
+                            title="Which country prefers acoustic songs?",
+                            labels={"Total Acousticness": "Acousticness Score"},
+                            color="Country")
+
+#italy france acousticness
+df_acousticness_it_fr = pd.DataFrame({
+    "Country": ["Italy (IT)", "France (FR)"],
+    "Total Acousticness": [it_acousticness, fr_acousticness]
+})
+acousticness_it_fr = px.bar(df_acousticness_it_fr, x="Country", y="Total Acousticness",
+                            title="Which country prefers acoustic songs?",
+                            labels={"Total Acousticness": "Acousticness Score"},
+                            color="Country")
+#italy spain acousticness
+df_acousticness_it_es = pd.DataFrame({
+    "Country": ["Italy (IT)", "Spain (Es))"],
+    "Total Acousticness": [it_acousticness, es_acousticness]
+})
+acousticness_it_es = px.bar(df_acousticness_it_es, x="Country", y="Total Acousticness",
+                            title="Which country prefers acoustic songs?",
+                            labels={"Total Acousticness": "Acousticness Score"},
+                            color="Country")

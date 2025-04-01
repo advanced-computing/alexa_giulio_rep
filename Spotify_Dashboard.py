@@ -2,9 +2,11 @@ import streamlit as st
 import pandas_gbq
 from google.oauth2 import service_account
 import folium
-from helper_functions_notebook import rain_emojis
+import pandas as pd
+import plotly.express as px
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
+from streamlit_extras.let_it_rain import rain
 
 # bigquery
 credentials = service_account.Credentials.from_service_account_info(
@@ -36,16 +38,23 @@ st.title("Spotify Streaming Analysis")
 st.header("by Alexa and Giulio")
 st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spotify Songs in 73 Countries (Daily Updated)\" dataset to analyze music trends across the world. Hope you enjoy!")
 st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spotify-songs-in-73-countries-daily-updated?resource=download)")
-rain_emojis("🎵") 
 
+def rain_emojis(emoji):
+        rain(
+            emoji=emoji,
+            font_size=54,
+            falling_speed=10,
+            animation_length=5,
+        )
+rain_emojis("🎵") 
 
 #creating list of coordinates and corresponding pages
 locations = {
-    "Italy": [41.8719, 12.5674, "pages/1_Italy.py"],  
-    "US": [38.79468, -74.0060, "pages/2_US.py"],  
-    "Mexico": [19.4326, -99.1332, "pages/3_Mexico.py"], 
-    "France": [46.6034, 1.8883, "pages/4_France.py"],  
-    "Spain": [40.4637, -3.7492, "pages/5_Spain.py"] 
+    "Italy": [41.8719, 12.5674, "pages/Italy.py"],  
+    "US": [38.79468, -74.0060, "pages/US.py"],  
+    "Mexico": [19.4326, -99.1332, "pages/Mexico.py"], 
+    "France": [46.6034, 1.8883, "pages/France.py"],  
+    "Spain": [40.4637, -3.7492, "pages/Spain.py"] 
 }
 
 #setting initial location for map
@@ -82,4 +91,5 @@ with st.form("feedback_form"):
 if submitted:
     st.session_state.rating = rating
     st.write("Thanks for rating us!")
+
 #streamlit run Spotify_Dashboard.py 
