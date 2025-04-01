@@ -5,12 +5,12 @@ import os
 import folium
 from streamlit_folium import st_folium
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from Spotify_Dashboard import spotify_data2 # noqa: E402
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-utils_path = os.path.join(project_root, "utils")
-if utils_path not in sys.path:
-    sys.path.append(utils_path)
-from helper_functions_notebook import rain_emojis # noqa: E402
+from Spotify_Dashboard import spotify_data2, rain_emojis # noqa: E402
+#project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+#utils_path = os.path.join(project_root, "utils")
+#if utils_path not in sys.path:
+   # sys.path.append(utils_path)
+#from helper_functions_notebook import # noqa: E402
 
 #Intro
 st.header("Bienvenido a España!")
@@ -66,3 +66,17 @@ explicit_pie = px.pie(explicit_df,
 explicit_pie.update_traces(marker=dict(colors=["red", "green"]))
 
 st.plotly_chart(explicit_pie)
+
+selection = st.pills(
+    "Select a country:",
+    options=["US","France","Italy","Mexico"]
+)
+
+if selection == "US":
+    pass
+elif selection == "France":
+    pass
+elif selection == "Mexico":
+    pass
+elif selection == "Italy":
+    pass
