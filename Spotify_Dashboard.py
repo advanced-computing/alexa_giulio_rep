@@ -2,8 +2,6 @@ import streamlit as st
 import pandas_gbq
 from google.oauth2 import service_account
 import folium
-import pandas as pd
-import plotly.express as px
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 from streamlit_extras.let_it_rain import rain

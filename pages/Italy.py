@@ -3,7 +3,6 @@ import plotly.express as px
 import sys
 import os
 import folium
-import pandas as pd
 from streamlit_folium import st_folium
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from Spotify_Dashboard import spotify_data2, rain_emojis # noqa: E402
