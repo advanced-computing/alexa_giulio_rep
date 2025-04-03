@@ -6,11 +6,11 @@ import folium
 from streamlit_folium import st_folium
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from Spotify_Dashboard import spotify_data2, rain_emojis # noqa: E402
-#project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-#utils_path = os.path.join(project_root, "utils")
-#if utils_path not in sys.path:
-   # sys.path.append(utils_path)
-#from helper_functions_notebook import # noqa: E402
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+utils_path = os.path.join(project_root, "utils")
+if utils_path not in sys.path:
+    sys.path.append(utils_path)
+from helper_functions_notebook import danceability_fr_it, acousticness_fr_it, danceability_fr_us, acousticness_fr_us, danceability_fr_mex, acousticness_fr_mex, danceability_fr_es, acousticness_fr_es # noqa: E402
 
 #Intro
 st.header("Bienvenue en France!")
@@ -70,14 +70,18 @@ st.plotly_chart(explicit_pie)
 
 selection = st.pills(
     "Select a country:",
-    options=["US","Mexico","Italy","Spain"]
+    options=["United States","Mexico","Italy","Spain"]
 )
 
-if selection == "US":
-    pass
+if selection == "Italy":
+    st.plotly_chart(danceability_fr_it)
+    st.plotly_chart(acousticness_fr_it)
 elif selection == "Mexico":
-    pass
+    st.plotly_chart(danceability_fr_mex)
+    st.plotly_chart(acousticness_fr_mex)
 elif selection == "Spain":
-    pass
-elif selection == "Italy":
-    pass
+    st.plotly_chart(danceability_fr_es)
+    st.plotly_chart(acousticness_fr_es)
+elif selection == "United States":
+    st.plotly_chart(danceability_fr_us)
+    st.plotly_chart(acousticness_fr_us)

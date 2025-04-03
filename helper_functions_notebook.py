@@ -99,93 +99,105 @@ def call_api(dataset_path, file_name, sample_size=1000):
   #analysis for other graphs
 #country vs country
 
-#danceability
-it_danceability = spotify_data2[spotify_data2["country"] == "IT"]["danceability"].sum()
-us_danceability = spotify_data2[spotify_data2["country"] == "US"]["danceability"].sum()
-mex_danceability = spotify_data2[spotify_data2["country"] == "MX"]["danceability"].sum()
-fr_danceability = spotify_data2[spotify_data2["country"] == "FR"]["danceability"].sum()
-es_danceability = spotify_data2[spotify_data2["country"] == "ES"]["danceability"].sum()
+# Define the countries and their labels
+countries = {
+    "IT": "Italy (IT)",
+    "US": "United States (US)",
+    "MX": "Mexico (MX)",
+    "FR": "France (FR)",
+    "ES": "Spain (ES)"
+}
 
-# italy us danceability
-df_danceability_it_us = pd.DataFrame({
-    "Country": ["Italy (IT)", "United States (US)"],
-    "Total Danceability": [it_danceability, us_danceability]
-})
-danceability_it_us = px.bar(df_danceability_it_us, x="Country", y="Total Danceability",
-                         title="Who prefers danceable songs?",
-                         labels={"Total Danceability": "Danceability Score"},
-                         color="Country")
-# italy mex danceability
-df_danceability_it_mex = pd.DataFrame({
-    "Country": ["Italy (IT)", "Mexico (MX)"],
-    "Total Danceability": [it_danceability, mex_danceability]
-})
-danceability_it_mex = px.bar(df_danceability_it_mex, x="Country", y="Total Danceability",
-                         title="Who prefers danceable songs?",
-                         labels={"Total Danceability": "Danceability Score"},
-                         color="Country")
-# italy france danceability
-df_danceability_it_fr = pd.DataFrame({
-    "Country": ["Italy (IT)", "France (FR)"],
-    "Total Danceability": [it_danceability, fr_danceability]
-})
-danceability_it_fr = px.bar(df_danceability_it_fr, x="Country", y="Total Danceability",
-                         title="Who prefers danceable songs?",
-                         labels={"Total Danceability": "Danceability Score"},
-                         color="Country")
+# Calculate total danceability per country
+danceability_scores = {
+    code: spotify_data2[spotify_data2["country"] == code]["danceability"].sum()
+    for code in countries
+}
 
-# italy spain danceability
-df_danceability_it_es = pd.DataFrame({
-    "Country": ["Italy (IT)", "Spain (ES)"],
-    "Total Danceability": [it_danceability, es_danceability]
-})
-danceability_it_es = px.bar(df_danceability_it_es, x="Country", y="Total Danceability",
-                         title="Who prefers danceable songs?",
-                         labels={"Total Danceability": "Danceability Score"},
-                         color="Country")
+# Function to generate bar chart between two countries
+def compare_danceability(base="IT", other="US"):
+    df = pd.DataFrame({
+        "Country": [countries[base], countries[other]],
+        "Total Danceability": [danceability_scores[base], danceability_scores[other]]
+    })
+    return px.bar(
+        df,
+        x="Country",
+        y="Total Danceability",
+        title="Who prefers danceable songs?",
+        labels={"Total Danceability": "Danceability Score"},
+        color="Country"
+    )
 
-#acoustic
-it_acousticness = spotify_data2[spotify_data2["country"] == "IT"]["acousticness"].sum()
-us_acousticness = spotify_data2[spotify_data2["country"] == "US"]["acousticness"].sum()
-mex_acousticness = spotify_data2[spotify_data2["country"] == "MX"]["acousticness"].sum()
-fr_acousticness = spotify_data2[spotify_data2["country"] == "FR"]["acousticness"].sum()
-es_acousticness = spotify_data2[spotify_data2["country"] == "ES"]["acousticness"].sum()
+# Generate plots
+danceability_it_us = compare_danceability("IT", "US")
+danceability_it_mex = compare_danceability("IT", "MX")
+danceability_it_fr = compare_danceability("IT", "FR")
+danceability_it_es = compare_danceability("IT", "ES")
 
-#italy us acousticness
-df_acousticness_it_us = pd.DataFrame({
-    "Country": ["Italy (IT)", "United States (US)"],
-    "Total Acousticness": [it_acousticness, us_acousticness]
-})
-acousticness_it_us = px.bar(df_acousticness_it_us, x="Country", y="Total Acousticness",
-                            title="Which country prefers acoustic songs?",
-                            labels={"Total Acousticness": "Acousticness Score"},
-                            color="Country")
+danceability_us_it = compare_danceability("US", "IT")
+danceability_us_mex = compare_danceability("US", "MX")
+danceability_us_fr = compare_danceability("US", "FR")
+danceability_us_es = compare_danceability("US", "ES")
 
-#italy mex acousticness
-df_acousticness_it_mex = pd.DataFrame({
-    "Country": ["Italy (IT)", "United States (US)"],
-    "Total Acousticness": [it_acousticness, mex_acousticness]
-})
-acousticness_it_mex = px.bar(df_acousticness_it_mex, x="Country", y="Total Acousticness",
-                            title="Which country prefers acoustic songs?",
-                            labels={"Total Acousticness": "Acousticness Score"},
-                            color="Country")
+danceability_mex_us = compare_danceability("MX", "US")
+danceability_mex_it = compare_danceability("MX", "IT")
+danceability_mex_fr = compare_danceability("MX", "FR")
+danceability_mex_es = compare_danceability("MX", "ES")
 
-#italy france acousticness
-df_acousticness_it_fr = pd.DataFrame({
-    "Country": ["Italy (IT)", "France (FR)"],
-    "Total Acousticness": [it_acousticness, fr_acousticness]
-})
-acousticness_it_fr = px.bar(df_acousticness_it_fr, x="Country", y="Total Acousticness",
-                            title="Which country prefers acoustic songs?",
-                            labels={"Total Acousticness": "Acousticness Score"},
-                            color="Country")
-#italy spain acousticness
-df_acousticness_it_es = pd.DataFrame({
-    "Country": ["Italy (IT)", "Spain (Es))"],
-    "Total Acousticness": [it_acousticness, es_acousticness]
-})
-acousticness_it_es = px.bar(df_acousticness_it_es, x="Country", y="Total Acousticness",
-                            title="Which country prefers acoustic songs?",
-                            labels={"Total Acousticness": "Acousticness Score"},
-                            color="Country")
+danceability_fr_us = compare_danceability("FR", "US")
+danceability_fr_it = compare_danceability("FR", "IT")
+danceability_fr_mex = compare_danceability("FR", "MX")
+danceability_fr_es = compare_danceability("FR", "ES")
+
+danceability_es_us = compare_danceability("ES", "US")
+danceability_es_it = compare_danceability("ES", "IT")
+danceability_es_mex = compare_danceability("ES", "MX")
+danceability_es_fr = compare_danceability("ES", "FR")
+
+# Calculate total acousticness per country
+acousticness_scores = {
+    code: spotify_data2[spotify_data2["country"] == code]["acousticness"].sum()
+    for code in countries
+}
+
+# Function to compare acousticness between two countries
+def compare_acousticness(base="IT", other="US"):
+    df = pd.DataFrame({
+        "Country": [countries[base], countries[other]],
+        "Total Acousticness": [acousticness_scores[base], acousticness_scores[other]]
+    })
+    return px.bar(
+        df,
+        x="Country",
+        y="Total Acousticness",
+        title="Which country prefers acoustic songs?",
+        labels={"Total Acousticness": "Acousticness Score"},
+        color="Country"
+    )
+
+# Generate plots
+acousticness_it_us = compare_acousticness("IT", "US")
+acousticness_it_mex = compare_acousticness("IT", "MX")
+acousticness_it_fr = compare_acousticness("IT", "FR")
+acousticness_it_es = compare_acousticness("IT", "ES")
+
+acousticness_us_it = compare_acousticness("US", "IT")
+acousticness_us_mex = compare_acousticness("US", "MX")
+acousticness_us_fr = compare_acousticness("US", "FR")
+acousticness_us_es = compare_acousticness("US", "ES")
+
+acousticness_mex_us = compare_acousticness("MX", "US")
+acousticness_mex_it = compare_acousticness("MX", "IT")
+acousticness_mex_fr = compare_acousticness("MX", "FR")
+acousticness_mex_es = compare_acousticness("MX", "ES")
+
+acousticness_fr_us = compare_acousticness("FR", "US")
+acousticness_fr_it = compare_acousticness("FR", "IT")
+acousticness_fr_mex = compare_acousticness("FR", "MX")
+acousticness_fr_es = compare_acousticness("FR", "ES")
+
+acousticness_es_us = compare_acousticness("ES", "US")
+acousticness_es_it = compare_acousticness("ES", "IT")
+acousticness_es_mex = compare_acousticness("ES", "MX")
+acousticness_es_fr = compare_acousticness("ES", "FR")
