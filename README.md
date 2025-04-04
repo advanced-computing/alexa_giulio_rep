@@ -7,6 +7,7 @@ We will use Kaggle's "Top Spotify Songs in 73 Countries (Daily Updated)" dataset
 - Do countries prefer explicit music or non explicit music?
 
 **Setup/usage instructions**
+Please use Python 3.12.2 
 
 Follow these steps: 
 1. clone the repository, 
