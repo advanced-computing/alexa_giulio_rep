@@ -80,14 +80,4 @@ if st.button("Go to country"):
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
 
-#rating
-st.write("Rate our app:")
-with st.form("feedback_form"):
-    rating = st.feedback(options="stars")
-    submitted = st.form_submit_button("Submit")
-
-if submitted:
-    st.session_state.rating = rating
-    st.write("Thanks for rating us!")
-
 #streamlit run Spotify_Dashboard.py 
