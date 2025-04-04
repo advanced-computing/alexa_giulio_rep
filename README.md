@@ -14,3 +14,5 @@ Follow these steps:
 2. create and activate the virtual environment (depending on your computer and Windows version you can use a variation of: (1) python -m venv .venv for creation and (2) .venv\Scripts\activate for activation)
 3. Install the requirements (pip install -r requirements.txt). Please exercise patience. It takes a really long time
 5=4. run the main dashboard page (streamlit run Spotify_Dashboard.py) with Streamlit.
+
+Deployed App link: https://advanced-computing-alexa-giulio-rep-spotify-dashboard-zvzfpp.streamlit.app/
