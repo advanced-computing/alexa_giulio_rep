@@ -10,8 +10,7 @@ We will use Kaggle's "Top Spotify Songs in 73 Countries (Daily Updated)" dataset
 Please use Python 3.12.2 or older
 
 Follow these steps: 
-1. clone the repository, 
+1. clone the repository 
 2. create and activate the virtual environment (depending on your computer and Windows version you can use a variation of: (1) python -m venv .venv for creation and (2) .venv\Scripts\activate for activation)
-3. install the requirements (pip install -r requirements.txt), 
-4. copy your BigQuery key into the secrets file and save it (remember not to commit the secrets file), 
-5. run the main dashboard page (streamlit run Spotify_Dashboard.py) with Streamlit.
+3. Install the requirements (pip install -r requirements.txt). Please exercise patience. It takes a really long time
+5=4. run the main dashboard page (streamlit run Spotify_Dashboard.py) with Streamlit.
