@@ -73,9 +73,11 @@ selection = st.pills(
     "Select a country:",
     options=list(locations.keys()),
 )
-if st.button("Go to country"):
-    st.switch_page(locations[selection][2])
 
+# Automatically redirect if a selection is made
+if selection:
+    st.switch_page(locations[selection][2])
+    
 #display map
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
