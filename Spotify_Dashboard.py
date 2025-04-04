@@ -49,7 +49,7 @@ rain_emojis("🎵")
 #creating list of coordinates and corresponding pages
 locations = {
     "Italy": [41.8719, 12.5674, "pages/Italy.py"],  
-    "US": [38.79468, -74.0060, "pages/US.py"],  
+    "United States": [38.79468, -74.0060, "pages/United_States.py"],  
     "Mexico": [19.4326, -99.1332, "pages/Mexico.py"], 
     "France": [46.6034, 1.8883, "pages/France.py"],  
     "Spain": [40.4637, -3.7492, "pages/Spain.py"] 
