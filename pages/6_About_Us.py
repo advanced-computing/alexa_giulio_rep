@@ -2,6 +2,7 @@
 import streamlit as st
 
 st.title("About Us")
+st.image("images/Screenshot 2025-04-04 at 2.46.45 PM.png")
 
 #about us: alexa
 st.markdown("<h1 style='text-align: center;'>Alexa Chan</h1>", unsafe_allow_html=True)

@@ -49,7 +49,7 @@ rain_emojis("🎵")
 #creating list of coordinates and corresponding pages
 locations = {
     "Italy": [41.8719, 12.5674, "pages/Italy.py"],  
-    "US": [38.79468, -74.0060, "pages/US.py"],  
+    "United States": [38.79468, -74.0060, "pages/United_States.py"],  
     "Mexico": [19.4326, -99.1332, "pages/Mexico.py"], 
     "France": [46.6034, 1.8883, "pages/France.py"],  
     "Spain": [40.4637, -3.7492, "pages/Spain.py"] 
@@ -79,15 +79,5 @@ if st.button("Go to country"):
 #display map
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
-
-#rating
-st.write("Rate our app:")
-with st.form("feedback_form"):
-    rating = st.feedback(options="stars")
-    submitted = st.form_submit_button("Submit")
-
-if submitted:
-    st.session_state.rating = rating
-    st.write("Thanks for rating us!")
 
 #streamlit run Spotify_Dashboard.py 

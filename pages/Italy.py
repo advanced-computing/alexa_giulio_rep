@@ -68,10 +68,10 @@ st.plotly_chart(explicit_pie)
 
 selection = st.pills(
     "Select a country:",
-    options=["US","Mexico","France","Spain"]
+    options=["United States","Mexico","France","Spain"]
 )
 
-if selection == "US":
+if selection == "United States":
     st.plotly_chart(danceability_it_us)
     st.plotly_chart(acousticness_it_us)
 elif selection == "Mexico":
