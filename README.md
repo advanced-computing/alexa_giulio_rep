@@ -7,8 +7,9 @@ We will use Kaggle's "Top Spotify Songs in 73 Countries (Daily Updated)" dataset
 - Do countries prefer explicit music or non explicit music?
 
 **Setup/usage instructions**
-Usage instructions
-
-**Colab button:** <a target="_blank" href="https://colab.research.google.com/github/advanced-computing/alexa_giulio_rep">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
+Follow these steps: 
+1. clone the repository, 
+2. activate the virtual environment (for Windows .venv2\Scripts\activate), 
+3. install the requirements (pip install -r reqiurements.txt), 
+4. copy your BigQuery key into the secrets file and save it (remember not to commit the secrets file), 
+5. run the main dashboard page (streamlit run Spotify_Dashboard.py) with Streamlit.
