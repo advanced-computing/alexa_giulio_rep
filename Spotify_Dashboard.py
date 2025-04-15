@@ -14,7 +14,7 @@ from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 from streamlit_extras.let_it_rain import rain
 
-# ------------------ SETUP ------------------
+# setup
 bucket_name = "run-sources-sipa-adv-c-alexa-giulio-us-central1"
 kaggle_dataset = "asaniczka/top-spotify-songs-in-73-countries-daily-updated"
 local_zip = "top-spotify-songs-in-73-countries-daily-updated.zip"
@@ -28,7 +28,7 @@ dataset_id = "spotify"
 table_id = "universal_top_spotify_songs"
 table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
-# ------------------ CACHED KAGGLE → BQ UPDATE ------------------
+# cache and big query
 @st.cache_data(ttl=3600)
 def update_bigquery_from_kaggle():
     try:
@@ -76,16 +76,17 @@ def update_bigquery_from_kaggle():
     except Exception as e:
         return None
 
-# ------------------ DATA LOAD ------------------
-with st.spinner("⏳ Updating dataset from Kaggle to BigQuery..."):
-    latest_snapshot = update_bigquery_from_kaggle()
+# loading data
+#with st.spinner("⏳ Updating dataset from Kaggle to BigQuery..."):
+    #latest_snapshot = update_bigquery_from_kaggle()
+latest_snapshot = update_bigquery_from_kaggle()
 
 if latest_snapshot is None:
     latest_date_query = f"SELECT MAX(snapshot_date) AS latest_date FROM `{table_ref}`"
     latest_date_df = pandas_gbq.read_gbq(latest_date_query, project_id=project_id, credentials=credentials)
     latest_snapshot = latest_date_df['latest_date'][0]
 
-st.info(f"📅 Latest data in BigQuery: {latest_snapshot}")
+#st.info(f"📅 Latest data in BigQuery: {latest_snapshot}")
 
 query = f"""
     SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness
@@ -95,7 +96,7 @@ query = f"""
 """
 spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
 
-# ------------------ CLEANING & VISUALS ------------------
+# cleaning and visuals
 
 # cleaning the data
 spotify_data["artists"] = spotify_data["artists"].astype(str).str.split(", ")
