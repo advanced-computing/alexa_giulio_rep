@@ -15,3 +15,6 @@ google-cloud-bigquery
 openpyxl
 folium
 streamlit_folium
+google-cloud-storage
+google-auth
+google-crc32c
