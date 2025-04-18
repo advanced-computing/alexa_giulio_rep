@@ -20,4 +20,6 @@ jobs:
       - name: Run update script
         env:
           GCP_SERVICE_ACCOUNT: ${{secrets.GCP_SERVICE_ACCOUNT}}
+          KAGGLE_USERNAME: ${{secrets.KAGGLE_USERNAME}}
+          KAGGLE_KEY: ${{secrets.KAGGLE_KEY}}
         run: python Spotify_Data_Load.py

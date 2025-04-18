@@ -27,6 +27,8 @@ def get_bq_credentials():
     )
     return credentials
 
+KAGGLE_USERNAME = os.environ.get("KAGGLE_USERNAME")
+KAGGLE_KEY = os.environ.get("KAGGLE_KEY")
 
 # setup
 bucket_name = "run-sources-sipa-adv-c-alexa-giulio-us-central1"
