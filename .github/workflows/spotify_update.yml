@@ -18,4 +18,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run update script
-        run: streamlit run Spotify_Dashboard.py
+        run: python Spotify_Data_Load.py
