@@ -3,12 +3,12 @@ from kaggle.api.kaggle_api_extended import KaggleApi
 from google.cloud import storage
 from google.cloud import bigquery
 import folium
-import streamlit as st
 import pandas as pd
 import os
 import zipfile
 import pandas_gbq
 import json
+#import streamlit as st
 
 def get_bq_credentials():
     # Load the data from BigQuery
@@ -36,16 +36,16 @@ kaggle_dataset = "asaniczka/top-spotify-songs-in-73-countries-daily-updated"
 local_zip = "top-spotify-songs-in-73-countries-daily-updated.zip"
 local_csv = "universal_top_spotify_songs.csv"
 
-credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-)
-project_id = st.secrets["gcp_service_account"]["project_id"]
+#credentials = service_account.Credentials.from_service_account_info(
+#    st.secrets["gcp_service_account"]
+#)
+#project_id = st.secrets["gcp_service_account"]["project_id"]
 dataset_id = "spotify"
 table_id = "universal_top_spotify_songs"
 table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
 # cache and big query
-@st.cache_data(ttl=3600)
+#@st.cache_data(ttl=3600)
 def update_bigquery_from_kaggle():
     try:
         api = KaggleApi()
