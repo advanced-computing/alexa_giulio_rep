@@ -8,6 +8,25 @@ import pandas as pd
 import os
 import zipfile
 import pandas_gbq
+import json
+
+def get_bq_credentials():
+    # Load the data from BigQuery
+    SCOPES = [
+        'https://www.googleapis.com/auth/cloud-platform',
+        'https://www.googleapis.com/auth/drive',
+    ]
+
+    # getting the credentials from the environment variable
+    bq_credentials = os.environ.get('GCP_SERVICE_ACCOUNT')
+    bq_credentials = json.loads(bq_credentials)
+    # as json file
+    credentials = service_account.Credentials.from_service_account_info(
+        bq_credentials,
+        scopes=SCOPES
+    )
+    return credentials
+
 
 # setup
 bucket_name = "run-sources-sipa-adv-c-alexa-giulio-us-central1"

@@ -18,4 +18,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run update script
+        env:
+          GCP_SERVICE_ACCOUNT: ${{secrets.GCP_SERVICE_ACCOUNT}}
         run: python Spotify_Data_Load.py

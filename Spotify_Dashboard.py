@@ -5,7 +5,7 @@ import pandas_gbq
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 from streamlit_extras.let_it_rain import rain
-from Spotify_Data_Load import table_ref, latest_snapshot, project_id, credentials, folium
+from Spotify_Data_Load import table_ref, latest_snapshot, project_id, credentials, folium, get_bq_credentials
 
 query = f"""
     SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness
@@ -13,6 +13,8 @@ query = f"""
     WHERE country IN ('IT','US','FR','ES','MX')
     AND snapshot_date = DATE('{latest_snapshot}')
 """
+credentials = get_bq_credentials()
+
 spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
 
 # cleaning and visuals
