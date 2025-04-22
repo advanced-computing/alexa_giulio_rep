@@ -35,8 +35,12 @@ def get_bq_credentials():
 
 def get_kaggle_api():
     api = KaggleApi()
-    api.authenticate()  # this only runs when the function is called
+    try:
+        api.authenticate()
+    except Exception as e:
+        raise RuntimeError("Kaggle authentication failed. Ensure kaggle.json or env vars are correctly set.") from e
     return api
+
 
 def update_bigquery_from_kaggle():
     try:
