@@ -212,3 +212,6 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,python
 .streamlit/secrets.toml
+
+#ETL
+gcp_service_account.json

@@ -11,21 +11,29 @@ import json
 #import streamlit as st
 
 def get_bq_credentials():
-    # Load the data from BigQuery
     SCOPES = [
         'https://www.googleapis.com/auth/cloud-platform',
         'https://www.googleapis.com/auth/drive',
     ]
 
-    # getting the credentials from the environment variable
-    bq_credentials = os.environ.get('GCP_SERVICE_ACCOUNT')
-    bq_credentials = json.loads(bq_credentials)
-    # as json file
+    bq_credentials_env = os.environ.get('GCP_SERVICE_ACCOUNT')
+
+    if bq_credentials_env:
+        bq_credentials = json.loads(bq_credentials_env)
+    else:
+        with open("gcp_service_account.json") as f:
+            bq_credentials = json.load(f)
+
     credentials = service_account.Credentials.from_service_account_info(
         bq_credentials,
         scopes=SCOPES
     )
     return credentials
+
+
+credentials = get_bq_credentials()
+project_id = credentials.project_id
+
 
 KAGGLE_USERNAME = os.environ.get("KAGGLE_USERNAME")
 KAGGLE_KEY = os.environ.get("KAGGLE_KEY")
