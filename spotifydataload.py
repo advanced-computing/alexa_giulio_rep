@@ -20,9 +20,7 @@ compressed_csv = "latest_snapshot.csv.gz"
 dataset_id = "spotify"
 table_id = "universal_top_spotify_songs"
 
-
 def get_bq_credentials():
-    """Load BigQuery service account credentials."""
     bq_credentials_env = os.environ.get("GCP_SERVICE_ACCOUNT")
     if bq_credentials_env:
         bq_credentials = json.loads(bq_credentials_env)
@@ -35,16 +33,12 @@ def get_bq_credentials():
         scopes=SCOPES
     )
 
-
 def get_kaggle_api():
-    """Authenticate and return Kaggle API client."""
     api = KaggleApi()
-    api.authenticate()  
+    api.authenticate()  # this only runs when the function is called
     return api
 
-
 def update_bigquery_from_kaggle():
-    """ETL from Kaggle → GCS → BigQuery"""
     try:
         credentials = get_bq_credentials()
         project_id = credentials.project_id
@@ -87,7 +81,7 @@ def update_bigquery_from_kaggle():
         os.remove(compressed_csv)
 
         return str(latest_snapshot)
-     
+
     except Exception as e:
         print(f"ETL failed: {e}")
         return None
