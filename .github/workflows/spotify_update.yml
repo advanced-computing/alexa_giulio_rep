@@ -18,4 +18,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run update script
-        run: python Spotify_Data_Load.py
+        env:
+          GCP_SERVICE_ACCOUNT: ${{secrets.GCP_SERVICE_ACCOUNT}}
+          KAGGLE_USERNAME: ${{secrets.KAGGLE_USERNAME}}
+          KAGGLE_KEY: ${{secrets.KAGGLE_KEY}}
+        run: python spotifydataload.py
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:." >> $GITHUB_ENV
+      - name: Run tests
+        run: pytest --cov=spotifydataload tests/
+
