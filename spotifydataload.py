@@ -1,70 +1,55 @@
 from google.oauth2 import service_account
 from kaggle.api.kaggle_api_extended import KaggleApi
-from google.cloud import storage
-from google.cloud import bigquery
-import folium
+from google.cloud import storage, bigquery
 import pandas as pd
+import pandas_gbq
 import os
 import zipfile
-import pandas_gbq
 import json
-#import streamlit as st
+
+SCOPES = [
+    'https://www.googleapis.com/auth/cloud-platform',
+    'https://www.googleapis.com/auth/drive',
+]
+
+bucket_name = "run-sources-sipa-adv-c-alexa-giulio-us-central1"
+kaggle_dataset = "asaniczka/top-spotify-songs-in-73-countries-daily-updated"
+local_zip = "top-spotify-songs-in-73-countries-daily-updated.zip"
+local_csv = "universal_top_spotify_songs.csv"
+compressed_csv = "latest_snapshot.csv.gz"
+dataset_id = "spotify"
+table_id = "universal_top_spotify_songs"
+
 
 def get_bq_credentials():
-    SCOPES = [
-        'https://www.googleapis.com/auth/cloud-platform',
-        'https://www.googleapis.com/auth/drive',
-    ]
-
-    bq_credentials_env = os.environ.get('GCP_SERVICE_ACCOUNT')
-
+    bq_credentials_env = os.environ.get("GCP_SERVICE_ACCOUNT")
     if bq_credentials_env:
         bq_credentials = json.loads(bq_credentials_env)
     else:
         with open("gcp_service_account.json") as f:
             bq_credentials = json.load(f)
 
-    credentials = service_account.Credentials.from_service_account_info(
+    return service_account.Credentials.from_service_account_info(
         bq_credentials,
         scopes=SCOPES
     )
-    return credentials
 
-# kaggle authentication
-def authenticate_kaggle():
+
+def get_kaggle_api():
     api = KaggleApi()
-    api.authenticate() 
+    api.authenticate()
     return api
 
-credentials = get_bq_credentials()
-project_id = credentials.project_id
 
-
-KAGGLE_USERNAME = os.environ.get("KAGGLE_USERNAME")
-KAGGLE_KEY = os.environ.get("KAGGLE_KEY")
-
-# setup
-bucket_name = "run-sources-sipa-adv-c-alexa-giulio-us-central1"
-kaggle_dataset = "asaniczka/top-spotify-songs-in-73-countries-daily-updated"
-local_zip = "top-spotify-songs-in-73-countries-daily-updated.zip"
-local_csv = "universal_top_spotify_songs.csv"
-
-#credentials = service_account.Credentials.from_service_account_info(
-#    st.secrets["gcp_service_account"]
-#)
-#project_id = st.secrets["gcp_service_account"]["project_id"]
-dataset_id = "spotify"
-table_id = "universal_top_spotify_songs"
-table_ref = f"{project_id}.{dataset_id}.{table_id}"
-
-# cache and big query
-#@st.cache_data(ttl=3600)
 def update_bigquery_from_kaggle():
     try:
-        api = KaggleApi()
-        api.authenticate()
+        credentials = get_bq_credentials()
+        project_id = credentials.project_id
+        table_ref = f"{project_id}.{dataset_id}.{table_id}"
 
+        api = get_kaggle_api()
         api.dataset_download_files(kaggle_dataset, path=".", unzip=False)
+
         with zipfile.ZipFile(local_zip, 'r') as zip_ref:
             zip_ref.extractall(".")
 
@@ -75,8 +60,6 @@ def update_bigquery_from_kaggle():
             (df['snapshot_date'] == latest_snapshot) &
             (df['country'].isin(['US', 'FR', 'IT', 'ES', 'MX']))
         ]
-
-        compressed_csv = "latest_snapshot.csv.gz"
         df_latest.to_csv(compressed_csv, index=False, compression='gzip')
 
         storage_client = storage.Client(credentials=credentials, project=project_id)
@@ -100,15 +83,8 @@ def update_bigquery_from_kaggle():
         os.remove(local_csv)
         os.remove(compressed_csv)
 
-        return latest_snapshot
+        return str(latest_snapshot)
 
     except Exception as e:
+        print(f"ETL failed: {e}")
         return None
-
-# loading data
-latest_snapshot = update_bigquery_from_kaggle()
-
-if latest_snapshot is None:
-    latest_date_query = f"SELECT MAX(snapshot_date) AS latest_date FROM `{table_ref}`"
-    latest_date_df = pandas_gbq.read_gbq(latest_date_query, project_id=project_id, credentials=credentials)
-    latest_snapshot = latest_date_df['latest_date'][0]
