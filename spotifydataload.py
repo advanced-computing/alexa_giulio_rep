@@ -87,3 +87,7 @@ def update_bigquery_from_kaggle():
         os.remove(compressed_csv)
 
         return str(latest_snapshot)
+     
+    except Exception as e:
+        print(f"ETL failed: {e}")
+        return None
