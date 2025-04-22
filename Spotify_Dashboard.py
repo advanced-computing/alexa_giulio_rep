@@ -5,7 +5,7 @@ import pandas_gbq
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 from streamlit_extras.let_it_rain import rain
-from Spotify_Data_Load import table_ref, latest_snapshot, project_id, credentials, folium, get_bq_credentials
+from spotifydataload import table_ref, latest_snapshot, project_id, credentials, folium, get_bq_credentials
 
 query = f"""
     SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness

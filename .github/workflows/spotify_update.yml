@@ -22,6 +22,6 @@ jobs:
           GCP_SERVICE_ACCOUNT: ${{secrets.GCP_SERVICE_ACCOUNT}}
           KAGGLE_USERNAME: ${{secrets.KAGGLE_USERNAME}}
           KAGGLE_KEY: ${{secrets.KAGGLE_KEY}}
-        run: python Spotify_Data_Load.py
+        run: python spotifydataload.py
       - name: Run tests
-        run: pytest --cov=Spotify_Data_Load tests/
+        run: pytest --cov=spotifydataload tests/
