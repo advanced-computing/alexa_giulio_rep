@@ -30,6 +30,11 @@ def get_bq_credentials():
     )
     return credentials
 
+# kaggle authentication
+def authenticate_kaggle():
+    api = KaggleApi()
+    api.authenticate() 
+    return api
 
 credentials = get_bq_credentials()
 project_id = credentials.project_id
@@ -101,13 +106,9 @@ def update_bigquery_from_kaggle():
         return None
 
 # loading data
-#with st.spinner("⏳ Updating dataset from Kaggle to BigQuery..."):
-    #latest_snapshot = update_bigquery_from_kaggle()
 latest_snapshot = update_bigquery_from_kaggle()
 
 if latest_snapshot is None:
     latest_date_query = f"SELECT MAX(snapshot_date) AS latest_date FROM `{table_ref}`"
     latest_date_df = pandas_gbq.read_gbq(latest_date_query, project_id=project_id, credentials=credentials)
     latest_snapshot = latest_date_df['latest_date'][0]
-
-#st.info(f"📅 Latest data in BigQuery: {latest_snapshot}")
