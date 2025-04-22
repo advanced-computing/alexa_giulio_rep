@@ -1,7 +1,6 @@
 import pytest
-from unittest import mock
 import spotifydataload
-
+from unittest import mock
 
 @mock.patch("spotifydataload.get_kaggle_api")
 @mock.patch("spotifydataload.get_bq_credentials")
@@ -10,22 +9,39 @@ import spotifydataload
 @mock.patch("spotifydataload.pd.read_csv")
 @mock.patch("spotifydataload.zipfile.ZipFile")
 def test_update_bigquery_from_kaggle(
-    mock_zipfile, mock_read_csv, mock_bq_client, mock_storage_client, mock_get_credentials, mock_get_kaggle
+    mock_zipfile, mock_read_csv, mock_bq_client,
+    mock_storage_client, mock_get_bq_credentials, mock_get_kaggle_api
 ):
-    # Set up mocks
-    mock_get_kaggle.return_value.dataset_download_files.return_value = None
-    mock_get_credentials.return_value.project_id = "test-project"
+    # --- Setup mocks ---
+    mock_api = mock.Mock()
+    mock_get_kaggle_api.return_value = mock_api
 
-    # Fake CSV data
-    df_mock = mock.Mock()
-    df_mock.__getitem__.return_value.max.return_value = "2024-12-31"
-    df_mock["snapshot_date"].max.return_value = "2024-12-31"
-    df_mock.__getitem__.side_effect = lambda key: df_mock
-    df_mock[(df_mock["snapshot_date"] == "2024-12-31") & (df_mock["country"].isin.return_value)] = df_mock
-    mock_read_csv.return_value = df_mock
+    mock_credentials = mock.Mock()
+    mock_credentials.project_id = "test-project"
+    mock_get_bq_credentials.return_value = mock_credentials
 
-    # Run
+    mock_bucket = mock.Mock()
+    mock_blob = mock.Mock()
+    mock_bucket.blob.return_value = mock_blob
+    mock_storage_client.return_value.bucket.return_value = mock_bucket
+
+    mock_bq = mock.Mock()
+    mock_bq_client.return_value = mock_bq
+    mock_bq.load_table_from_uri.return_value.result.return_value = None
+
+    mock_df = mock.Mock()
+    mock_df.__getitem__.return_value.max.return_value = "2024-12-31"
+    mock_df.__getitem__.side_effect = lambda col: ["US", "FR", "IT", "ES", "MX"] if col == "country" else ["2024-12-31"]
+    mock_df["snapshot_date"].max.return_value = "2024-12-31"
+    mock_read_csv.return_value = mock_df
+
+    # --- Run test ---
     result = spotifydataload.update_bigquery_from_kaggle()
 
-    # Assert
+    # --- Assert ---
     assert result == "2024-12-31"
+    mock_api.dataset_download_files.assert_called_once()
+    mock_bq.load_table_from_uri.assert_called_once()
+    mock_blob.upload_from_filename.assert_called_once()
+    mock_read_csv.assert_called_once()
+    mock_zipfile.assert_called_once()
