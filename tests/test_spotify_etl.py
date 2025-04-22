@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-import spotifydataload
+from spotifydataload import spotifydataload
 
 class TestBigQueryFallback(unittest.TestCase):
 
