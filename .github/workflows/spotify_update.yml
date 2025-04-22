@@ -23,5 +23,7 @@ jobs:
           KAGGLE_USERNAME: ${{secrets.KAGGLE_USERNAME}}
           KAGGLE_KEY: ${{secrets.KAGGLE_KEY}}
         run: python spotifydataload.py
+      - name: Set PYTHONPATH
+       run: echo "PYTHONPATH=$PYTHONPATH:." >> $GITHUB_ENV
       - name: Run tests
         run: pytest --cov=spotifydataload tests/
