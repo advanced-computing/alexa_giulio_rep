@@ -1,11 +1,11 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from spotifydataload import spotifydataload
+import spotifydataload
 
 class TestBigQueryFallback(unittest.TestCase):
 
-    @patch("Spotify_Data_Load.pandas_gbq.read_gbq")
-    @patch("Spotify_Data_Load.update_bigquery_from_kaggle", return_value=None)
+    @patch("spotifydataload.pandas_gbq.read_gbq")
+    @patch("spotifydataload.update_bigquery_from_kaggle", return_value=None)
     def test_bigquery_fallback_used(self, mock_etl, mock_read_gbq):
         mock_df = MagicMock()
         mock_df.__getitem__.return_value = ['2025-04-19']
