@@ -89,3 +89,7 @@ def update_bigquery_from_kaggle():
     except Exception as e:
         print(f"ETL failed: {e}")
         return None
+
+if __name__ == "__main__":
+    # update the data
+    update_bigquery_from_kaggle()
