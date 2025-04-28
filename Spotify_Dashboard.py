@@ -24,8 +24,6 @@ spotify_data["artists"] = spotify_data["artists"].astype(str).str.split(", ")
 spotify_data2 = spotify_data.explode("artists")
 spotify_data2["artists"] = spotify_data2["artists"].str.strip("[]'\" ")
 
-st.write(spotify_data2.head())
-
 # Intro Section
 LOGO_URL_SMALL = "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
 st.logo(
