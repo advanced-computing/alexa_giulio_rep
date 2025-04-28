@@ -2,29 +2,31 @@ import gzip
 import shutil
 import streamlit as st
 import pandas_gbq
+import folium
 from folium.plugins import MarkerCluster
 from streamlit_folium import st_folium
 from streamlit_extras.let_it_rain import rain
-from spotifydataload import table_ref, latest_snapshot, project_id, credentials, folium, get_bq_credentials
+from spotifydataload import table_ref, latest_snapshot, project_id, credentials, update_bigquery_from_kaggle
 
+#load data in big query
 query = f"""
-    SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness
+    SELECT DISTINCT artists, country, name, is_explicit, speechiness, danceability, acousticness, liveness, loudness
     FROM `{table_ref}`
     WHERE country IN ('IT','US','FR','ES','MX')
     AND snapshot_date = DATE('{latest_snapshot}')
 """
-credentials = get_bq_credentials()
 
+# Fetch data from BigQuery using pandas_gbq
 spotify_data = pandas_gbq.read_gbq(query, project_id=project_id, credentials=credentials)
 
-# cleaning and visuals
-
-# cleaning the data
+# Cleaning the data
 spotify_data["artists"] = spotify_data["artists"].astype(str).str.split(", ")
 spotify_data2 = spotify_data.explode("artists")
 spotify_data2["artists"] = spotify_data2["artists"].str.strip("[]'\" ")
 
-#intro
+st.write(spotify_data2.head())
+
+# Intro Section
 LOGO_URL_SMALL = "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Full_Logo_RGB_Green.png"
 st.logo(
     LOGO_URL_SMALL,
@@ -37,15 +39,15 @@ st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spo
 st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spotify-songs-in-73-countries-daily-updated?resource=download)")
 
 def rain_emojis(emoji):
-        rain(
-            emoji=emoji,
-            font_size=54,
-            falling_speed=10,
-            animation_length=5,
-        )
+    rain(
+        emoji=emoji,
+        font_size=54,
+        falling_speed=10,
+        animation_length=5,
+    )
 rain_emojis("🎵") 
 
-#creating list of coordinates and corresponding pages
+# Creating a list of coordinates and corresponding pages
 locations = {
     "Italy": [41.8719, 12.5674, "pages/Italy.py"],  
     "United States": [38.79468, -74.0060, "pages/United_States.py"],  
@@ -54,10 +56,10 @@ locations = {
     "Spain": [40.4637, -3.7492, "pages/Spain.py"] 
 }
 
-#setting initial location for map
+# Setting initial location for the map
 map = folium.Map(location=[46.1101, -37.0669], zoom_start=2)
 
-#adding country markers on map
+# Adding country markers on the map
 marker_cluster = MarkerCluster().add_to(map)
 for country, (lat, lon, page) in locations.items():
     folium.Marker(
@@ -67,7 +69,7 @@ for country, (lat, lon, page) in locations.items():
         icon=folium.Icon(color='blue')
     ).add_to(marker_cluster)
 
-#choosing country
+# Choosing a country
 selection = st.pills(
     "Select a country:",
     options=list(locations.keys()),
@@ -77,7 +79,7 @@ selection = st.pills(
 if selection:
     st.switch_page(locations[selection][2])
     
-#display map
+# Display the map
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
 

@@ -67,6 +67,14 @@ explicit_pie.update_traces(marker=dict(colors=["red", "green"]))
 
 st.plotly_chart(explicit_pie)
 
+#loudness histogram
+df_france['loudness'] = df_france['loudness'].astype(float)
+
+loudness_hist = px.histogram(df_france, x='loudness', nbins=30,
+                              labels={"loudness": "Loudness"},
+                              title="How Loud do the French like their music? Distribution of Decibel Levels in Songs")
+
+st.plotly_chart(loudness_hist)
 
 selection = st.pills(
     "Select a country:",
