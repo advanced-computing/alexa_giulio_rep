@@ -74,6 +74,13 @@ loudness_hist = px.histogram(df_france, x='loudness', nbins=30,
                               labels={"loudness": "Loudness"},
                               title="How Loud do the French like their music? Distribution of Decibel Levels in Songs")
 
+loudness_hist.add_vline(
+    x=-14,  # Position of the line at -14 dB
+    line=dict(color="red", width=2, dash="dash"),  # Red dashed line
+    annotation_text="Spotify's Target Loudness (-14 dB)",
+    annotation_position="top left"
+)
+
 st.plotly_chart(loudness_hist)
 
 selection = st.pills(
