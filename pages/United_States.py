@@ -72,7 +72,7 @@ df_us['loudness'] = df_us['loudness'].astype(float)
 
 loudness_hist = px.histogram(df_us, x='loudness', nbins=30,
                               labels={"loudness": "Loudness"},
-                              title="How Loud do Americans like their music? Distribution of Decibel Levels in Songs")
+                              title="How Loud Is Music in the US? A Look at the Distribution of Decibel Levels in Songs")
 
 loudness_hist.add_vline(
     x=-14,  # Position of the line at -14 dB
