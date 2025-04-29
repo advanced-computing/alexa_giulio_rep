@@ -2,6 +2,7 @@
 import streamlit as st
 
 st.title("About Us")
+st.write("Alexa and Giulio are two besties who love to code. They met on at the IFEP orientation party last year and have been attached at the hip ever since. Thank you to Professor Feldman for pairing us together <3")
 st.image("images/Screenshot 2025-04-04 at 2.46.45 PM.png")
 
 #about us: alexa

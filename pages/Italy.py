@@ -71,7 +71,7 @@ df_italy['loudness'] = df_italy['loudness'].astype(float)
 
 loudness_hist = px.histogram(df_italy, x='loudness', nbins=30,
                               labels={"loudness": "Loudness"},
-                              title="How Loud do Italians like their music? Distribution of Decibel Levels in Songs")
+                              title="How Loud Is Music in Italy? A Look at the Distribution of Decibel Levels in Songs")
 
 loudness_hist.add_vline(
     x=-14,  # Position of the line at -14 dB
@@ -79,7 +79,6 @@ loudness_hist.add_vline(
     annotation_text="Spotify's Target Loudness (-14 dB)",
     annotation_position="top left"
 )
-
 
 st.plotly_chart(loudness_hist)
 
