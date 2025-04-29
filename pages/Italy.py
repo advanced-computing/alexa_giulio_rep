@@ -80,7 +80,6 @@ loudness_hist.add_vline(
     annotation_position="top left"
 )
 
-
 st.plotly_chart(loudness_hist)
 
 selection = st.pills(

@@ -33,8 +33,11 @@ st.logo(
 )
 st.title("Spotify Streaming Analysis")
 st.header("by Alexa and Giulio")
-st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spotify Songs in 73 Countries (Daily Updated)\" dataset to analyze music trends across the world. Hope you enjoy!")
+st.write("Thanks for stopping by our dashboard! This app uses Kaggle's \"Top Spotify Songs in 73 Countries (Daily Updated)\" dataset to analyze music trends across the world. Click on the buttons to select a button and start browsing. Hope you enjoy!")
 st.markdown("[Link to dataset](https://www.kaggle.com/datasets/asaniczka/top-spotify-songs-in-73-countries-daily-updated?resource=download)")
+
+st.write("P.S. listen to some light tunes while you browse :)")
+st.audio("lounge-jazz-elevator-music-324902.mp3", format="audio/mpeg", loop=True)
 
 def rain_emojis(emoji):
     rain(
