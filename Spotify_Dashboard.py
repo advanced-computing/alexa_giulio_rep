@@ -71,4 +71,4 @@ if selection:
 st.write("Check out this map to see which countries we feature on our app:")
 st_folium(map, width=700, height=500)
 
-#streamlit run Spotify_Dashboard.py
+#streamlit run Spotify_Dashboard.py  
