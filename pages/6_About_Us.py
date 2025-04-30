@@ -17,7 +17,7 @@ st.image("images/Screenshot 2025-03-31 at 2.48.04 PM.png")
 #about us: giulio
 st.markdown("<h1 style='text-align: center;'>Giulio Trombin</h1>", unsafe_allow_html=True)
 st.write("""
-Giulio Trombin is a Finance & Data Analytics student at Columbia with a passion to leverage data to drive financial decision-making. He runs slowly and sky aggressively.
+Giulio Trombin is a Finance & Data Analytics student at Columbia with a passion to leverage data to drive financial decision-making. He runs slowly and skis aggressively.
 
 [Linkedin](https://www.linkedin.com/in/giulio-trombin-18092a1ba/)
          
