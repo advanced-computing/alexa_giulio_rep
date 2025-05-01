@@ -24,5 +24,5 @@ Follow these steps:
 3. Install the requirements (pip install -r requirements.txt). Please exercise patience. It takes a really long time
 5=4. run the main dashboard page (streamlit run Spotify_Dashboard.py) with Streamlit.
 
-Deployed App link: https://advanced-computing-alexa-giulio-rep-spotify-dashboard-zvzfpp.streamlit.app/
+Deployed App link: [https://advanced-computing-alexa-giulio-rep-spotify-dashboard-zvzfpp.streamlit.app/](https://advanced-computing-alexa-giulio-rep-spotify-dashboard-pxcadt.streamlit.app/)
 >>>>>>> 232730eac4dea19caf36feb35cd5930b0b946871
